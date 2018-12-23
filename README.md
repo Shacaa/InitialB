@@ -1,4 +1,4 @@
-# InitialB ver 2.0.0
+# InitialB ver 2.0.1
 InitialB is a Discord bot developed by me.  
 If you want to use it feel free to do so and let me know what you think.  
   
