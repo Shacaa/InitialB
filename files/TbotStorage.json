@@ -1,0 +1,10 @@
+//This is only a template.
+
+{
+"rps":{
+	"InitialB":[0,0,0],
+	"userId1":[0,0,0],
+	"userId2":[0,0,0]
+	},
+"ohoho":["Ohoho"]
+}

@@ -1,0 +1,15 @@
+E# = event number
+D# = date number
+**+-event create:** create an event.
+**+-event list:** list of events in actual server.
+**+-event <E#>:** all information about the event.
+**+-event <E#> join:** join the event.
+**+-event <E#> leave:** leave event.
+**+-event <E#> vote <D#>:** vote event date.
+**+-event <E#> cancelvote <D#>:** cancel your vote for that date.
+**+-event <E#> cantattend:** let know you can't attend the event.
+**+-event <E#> closevotes:** decides the winner date (only event host).
+**+-event <E#> cancel:** cancels the event.
+**+-event <E#> participants:** list of actual participants.
+**+-event <E#> datevotes <D#>:** list of people who voted for that date.
+**+-event <E#> cantattendlist:** list of people that can't attend.

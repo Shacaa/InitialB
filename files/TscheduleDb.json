@@ -1,0 +1,35 @@
+//This is only a template.
+
+{
+"guilds":{
+	"guildId1":{
+		"name":"guildName",
+		"events":[
+			{
+			"host":["username", "userId"],
+			"channel":["channelName", "channelId"],
+			"cant":"number that cant assist",
+			"interested":{
+				"userId1":"number of dates interested in",
+				"userId2":"number of dates interested in"
+			},
+			"name":"event name",
+			"description":"event description",
+			"dates":[
+				["date1", {
+					"votes":"number of votes",
+					"userId1":"username",
+					"userId2":"username"
+				}]
+			],
+			"id":"event id"
+			}
+		],
+		"ids":"last id used"
+	}
+}
+}
+
+
+
+

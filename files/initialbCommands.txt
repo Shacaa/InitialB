@@ -1,0 +1,12 @@
+**+-musicshare <all>:** random song shared in #musicshare in this server* ('all' for every server).
+**+-musicshare @username:** random song from given user.
+**+-musicshare add <link>:** add manually a song to musicshare (yt/spotify link).
+**+-spotify <artist>:** random song from given artist.
+**+-reddit <subreddit>:** random submission from subreddit's frontpage.
+**+-rps <rock, paper, scissors>:** no friends? InitialB will play with you!
+**+-rps stats:** know your win rate against InitialB.
+**+-roll <number>:** random number between 0 and given number (10 by default)
+**+-event help:** get a list with all the event commands.
+**+-invite:** gives link to invite InitialB to your server.
+**+-report <message>:** report any bug or issue.
+**+-about:** about InitialB.
