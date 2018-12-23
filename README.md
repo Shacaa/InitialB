@@ -1,0 +1,2 @@
+# InitialB
+Discord bot.
