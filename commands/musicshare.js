@@ -169,7 +169,8 @@ exports.run = (client, reddit, spotify, message, args) => {
 		//var permissions = message.channel.permissionsFor(client.user);
 		if(notify && saved > 0){
 			//You can use "+-musicshare" to get a random song.
-			message.channel.send('Your music has been saved!\nYou can use \"+-musicshare\" to get a random song.\nGo subscribe to Pewdiepie! :punch:').then(function(data, err){
+			//You can use "+-musicshare" to get a random song. \n Go subscribe to Pewdiepie! :punch:
+			message.channel.send('Your music has been saved!\nFrom December 27th I\'ll be down for 20 days.\nHappy holidays and enjoy!' ).then(function(data, err){
 				if(err){console.error(err);}else{
 					data.delete(30000);
 				}

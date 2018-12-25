@@ -1,9 +1,10 @@
 InitialB is a Discord bot developed by Shaca(#0982).
 I'm the one hosting InitialB (not a server) so it won't be online 24/7 sadly.
 
-**Schedules:**
-Mon-Fri: 11 to 24hrs GMT
-Sat-Sun: ???
+**Uptimes (GMT/UTC):**
+From the 27th of December I'll be down for 20 days. Happy holidays and enjoy!
+Mon-Fri: 11am to 03am
+Sat-Sun: ??? to ???
 
 **Latest update - v2.0.1 (11/08/18):**
 - Now you can get songs submitted by a specific user using "+-musicshare @username".
@@ -14,7 +15,7 @@ Sat-Sun: ???
 - Code has been modulated, what does it mean?
 .	 - Improvements to commands/events handler.
 .    - No need to reset bot for applying updates/fixes.
-.    - In case of a crash/bug while running a command the bot won't die.
+.    - In case of a crash/bug while running a command the bot shouldn't die.
 - Small improvements to musicshare.
 - Now when joining a server InitialB asks for a few (NON intrusive) permissions.
 - Fixed bug where if not sub was given to reddit command it would post something from bot's frontpage (now posts from r/all).
