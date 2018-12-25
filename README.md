@@ -6,7 +6,7 @@ If you want to use it feel free to do so and let me know what you think.
   
 **Uptimes(GMT/UTC):**
 Mon-Fri: 11am to 03am
-Sat-Sun: ??? to ???
+Sat-Sun: ??? to ???  
   
 **Main Features:**  
 - **Music Share**  
