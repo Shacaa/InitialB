@@ -4,11 +4,9 @@ If you want to use it feel free to do so and let me know what you think.
   
 [Follow this link to invite InitialB to your server.](https://discordapp.com/oauth2/authorize?client_id=370035434467753984&scope=bot&permissions=103926976)  
   
-**Libraries used:**  
-[discordjs](https://discord.js.org/#/)  
-[snoowrap](https://not-an-aardvark.github.io/snoowrap/index.html)  
-[Spotify Web API Node](https://github.com/thelinmichael/spotify-web-api-node)  
-[node-schedule](https://www.npmjs.com/package/node-schedule)  
+**Uptimes(GMT/UTC):**
+Mon-Fri: 11am to 03am
+Sat-Sun: ??? to ???
   
 **Main Features:**  
 - **Music Share**  
@@ -27,3 +25,10 @@ With the reddit command you can get a random post from any subreddit's frontpage
   
 - **RPS**  
 Play "Rock, Paper, Scissors" with InitialB and get to know your winrate with the stats command.
+
+
+**Libraries used:**
+[discordjs](https://discord.js.org/#/)
+[snoowrap](https://not-an-aardvark.github.io/snoowrap/index.html)
+[Spotify Web API Node](https://github.com/thelinmichael/spotify-web-api-node)
+[node-schedule](https://www.npmjs.com/package/node-schedule)
