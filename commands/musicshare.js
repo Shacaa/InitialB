@@ -102,36 +102,36 @@ exports.run = (client, reddit, spotify, message, args) => {
 	 * returns: 
 	 */
 	function processMsgMusicShare(channel, lastOnline, offset = false, toSave = []){
-		var options = {'limit':100};
+		let options = {'limit':100};
 		if(offset){options['before'] = offset;}
 		channel.fetchMessages(options).then(function(data){
-			messages = data.array();
-			for(var i = 0; i < messages.length; i++){
+			let messages = data.array();
+			let i = 0;
+			for(i; i < messages.length; i++){
 				if(messages[i].createdAt.getTime() < lastOnline.getTime()){
 					break;
 				}else if(messages[i].author.bot){
 					continue;
 				}
-				var linkIds = getYtSpLinkId(messages[i].content);
+				let linkIds = getYtSpLinkId(messages[i].content);
 				if(linkIds[0]){
 					console.log(linkIds);
-					for(l = 0; l < linkIds.length; l++){toSave.push([linkIds[l], messages[i].author.id, messages[i].guild.id]);}
+					for(let l = 0; l < linkIds.length; l++){toSave.push([linkIds[l], messages[i].author.id, messages[i].guild.id]);}
 				}
 			}
-			if(i == 100){processMsgMusicShare(channel, lastOnline, messages[i-1].id, saved);}else{
+			if(i === 100){processMsgMusicShare(channel, lastOnline, messages[i-1].id, toSave);}else{
 				if(toSave.length > 0){
 					globals.editJSON(musicShareDb, saveEntryMusicDb, [channel, toSave, false]);
-					var text = ' songs';
-					if(toSave.length == 1){text = ' song';}
-					/*channel.send(toSave.length.toString()+text+' saved since last time I was online.\nYou can use \"+-musicshare\" to get a random song.').then(function(data, err){
-						if(err){console.error(err);}else{
-							data.delete(60000);
-						}
-					});*/
+					let text = ' songs';
+					if(toSave.length === 1){text = ' song';}
+					// channel.send(toSave.length.toString()+text+' saved since last time I was online.\nYou can use \"+-musicshare\" to get a random song.').then(function(data, err){
+					// 	if(err){console.error(err);}else{
+					// 		data.delete(60000);
+					// 	}
+					// });
 					globals.editJSON(botStorage, function(data){
-						var obj = JSON.parse(data);
-						var date = new Date();
-						obj.lastOnline = date;
+						let obj = JSON.parse(data);
+						obj.lastOnline = new Date();
 						return JSON.stringify(obj);
 					});
 				}
@@ -159,7 +159,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 			}
 			if(!obj['servers'][serverId][author]){
 				obj['servers'][serverId][author] = [];
-				console.log('Se agrego nuevo usuario a '+serverId);
+				console.log('New user added to '+serverId);
 			}
 			obj['servers'][serverId][author].push(toSave[i][0]);
 			obj['servers'][serverId]['ids'][toSave[i][0]] = [];
@@ -170,7 +170,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 		if(notify && saved > 0){
 			//You can use "+-musicshare" to get a random song.
 			//You can use "+-musicshare" to get a random song. \n Go subscribe to Pewdiepie! :punch:
-			message.channel.send('Your music has been saved!\nFrom December 27th I\'ll be down for 20 days.\nHappy holidays and enjoy!' ).then(function(data, err){
+			message.channel.send('Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' ).then(function(data, err){
 				if(err){console.error(err);}else{
 					data.delete(30000);
 				}
