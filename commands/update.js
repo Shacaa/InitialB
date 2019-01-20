@@ -7,7 +7,7 @@ const owner = '116758923603738625';
 
 exports.run = (client, reddit, spotify, message, args) => {
 
-	if(message.author.id != owner){
+	if(message.author.id !== owner){
 		return false;
 	}
 	try{

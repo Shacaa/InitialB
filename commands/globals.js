@@ -24,7 +24,7 @@ exports.run = (client, reddit, spotify, message, args) => {
  *returns:
 */
 function dateTime(client, msg = ''){
-	var t = new Date();
+	let t = new Date();
 	console.log(t.toUTCString()+' - '+msg);
 	botLog(client, msg, false);
 	
@@ -38,8 +38,8 @@ function dateTime(client, msg = ''){
  * Returns: 
 */
 function botLog(client, msg = '', print = true){
-	var guild = client.guilds.get('194251927305846784');
-	var logChannel = guild.channels.get('453389664360071168');
+	let guild = client.guilds.get('194251927305846784');
+	let logChannel = guild.channels.get('453389664360071168');
 	logChannel.send(msg);
 	if(print){console.log(msg);}	
 }

@@ -10,7 +10,7 @@ const globals = require('./globals.js');
 
 exports.run = (client, reddit, spotify, message, args) => {
 	
-	if(args[0] == 'processMsChannels'){
+	if(args[0] === 'processMsChannels'){
 		fs.readFile(botStorage, 'utf8', function(err, data){
 			if(err){console.error(err);}else{
 				let obj = JSON.parse(data);
@@ -31,7 +31,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 	}else{
 		let mentions = message.mentions.members.array();
 		let from = 'server';
-		if(args[0] == 'all'){
+		if(args[0] === 'all'){
 			from = 'all';
 		}else if(mentions.length > 0){
 			from = mentions[0].user.id +' '+mentions[0].user.username;
@@ -50,12 +50,12 @@ exports.run = (client, reddit, spotify, message, args) => {
 	 * returns: link id(array:[id]), or false if there is no link(array:[false])
 	*/
 	function getYtSpLinkId(msg){
-		var words = msg.split(/ |\n/);
-		var ytTemplate = /(https:\/\/(www\.)?youtu\.?be)/;
-		var sptTemplate = /(https:\/\/open.spotify.com\/((track)|(album)))/;
-		var link = [false];
-		var id;
-		for(i in words){
+		let words = msg.split(/ |\n/);
+		let ytTemplate = /(https:\/\/(www\.)?youtu\.?be)/;
+		let sptTemplate = /(https:\/\/open.spotify.com\/((track)|(album)))/;
+		let link = [false];
+		let id;
+		for(let i in words){
 			if(ytTemplate.test(words[i])){
 				if((/https:\/\/youtu.be/).test(words[i])){
 					id = words[i].split('/')[3];
@@ -66,7 +66,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 				link.push((id.split('&')[0]).split('?')[0]);
 				if(!link[0]){link.shift();}
 			}else if(sptTemplate.test(words[i])){
-				linkParts = words[i].split('/');
+				let linkParts = words[i].split('/');
 				id = linkParts[3]+'/'+linkParts[4];
 				link.push(id.split('?si=')[0]);
 				if(!link[0]){link.shift();}
@@ -82,10 +82,10 @@ exports.run = (client, reddit, spotify, message, args) => {
 	 * returns:
 	 */
 	function checkMusicShare(lastOnline){
-		var guilds = client.guilds.array();
-		for(var i = 0; i < guilds.length; i++){
-			channels = guilds[i].channels.array();
-			for(var j = 0; j < channels.length; j++){
+		let guilds = client.guilds.array();
+		for(let i = 0; i < guilds.length; i++){
+			let channels = guilds[i].channels.array();
+			for(let j = 0; j < channels.length; j++){
 				if((/music-?share/).test(channels[j].name)){
 					processMsgMusicShare(channels[j], lastOnline);
 				}
@@ -147,12 +147,12 @@ exports.run = (client, reddit, spotify, message, args) => {
 	*/
 	//[linkid, authorid, guildid]
 	function saveEntryMusicDb(message, toSave, notify, data){
-		var obj = JSON.parse(data);
-		var saved = 0;
+		let obj = JSON.parse(data);
+		let saved = 0;
 		console.log(toSave);
-		for(var i = 0; i < toSave.length; i++){
-			var author = toSave[i][1];
-			var serverId = toSave[i][2];
+		for(let i = 0; i < toSave.length; i++){
+			let author = toSave[i][1];
+			let serverId = toSave[i][2];
 			if(obj['servers'][serverId]['ids'][toSave[i][0]]){
 				console.log('salteo');
 				continue;
@@ -166,7 +166,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 			if(!obj['ids'][toSave[i][0]]){obj['ids'][toSave[i][0]] = [];}
 			saved++;
 		}
-		//var permissions = message.channel.permissionsFor(client.user);
+		//let permissions = message.channel.permissionsFor(client.user);
 		if(notify && saved > 0){
 			//You can use "+-musicshare" to get a random song.
 			//You can use "+-musicshare" to get a random song. \n Go subscribe to Pewdiepie! :punch:
@@ -188,41 +188,42 @@ exports.run = (client, reddit, spotify, message, args) => {
 	function sendRandomEntryMusicDb(author, channel, serverId, from){
 		fs.readFile(musicShareDb, 'utf8', function(err, data){
 			if(err){console.log(err);}else{
-				var musicDb = JSON.parse(data);
-				var entryId;
-				if(from == 'server'){
-					var users = Object.keys(musicDb.servers[serverId]);
+				let musicDb = JSON.parse(data);
+				let entryId;
+				let entryN;
+				if(from === 'server'){
+					let users = Object.keys(musicDb.servers[serverId]);
 					users.splice(users.indexOf('ids'), 1);
 					if(musicDb.servers[serverId][author]){ 
 						users.splice(users.indexOf(author), 1);
 					}
-					var entries = [];
-					var usersIx = [];
-					for(var i = 0; i < users.length; i++){
+					let entries = [];
+					let usersIx = [];
+					for(let i = 0; i < users.length; i++){
 						entries = entries.concat(musicDb.servers[serverId][users[i]]);
 						usersIx.push([(users[i]), (entries.length)]);
 					}
-					if(entries.length == 0){
+					if(entries.length === 0){
 						channel.send('No entries found in this server :(\nTry \'+-musicshare all\'.');
 						return false;
 					}
 					entryN = Math.floor(Math.random()*(entries.length));
 					entryId = entries[entryN];
-				}else if(from == 'all'){
-					var entries = Object.keys(musicDb.ids);
+				}else if(from === 'all'){
+					let entries = Object.keys(musicDb.ids);
 					entryId = entries[Math.floor(Math.random()*(entries.length))];
 				}else{
-					var user = from.split(' ');
+					let user = from.split(' ');
 					if(musicDb.servers[serverId][user[0]]){
-						var entries = musicDb.servers[serverId][user[0]];
+						let entries = musicDb.servers[serverId][user[0]];
 						entryId = entries[Math.floor(Math.random()*(entries.length))];
 					}else{
 						channel.send('There are no songs saved from this user.');
 						return false;
 					}
 				}
-				var msg = '';
-				if(entryId.length == 1){
+				let msg = '';
+				if(entryId.length === 1){
 					channel.send('There was an error, try again!');
 					return false;
 				}else if(entryId.length <= 11){
@@ -230,8 +231,8 @@ exports.run = (client, reddit, spotify, message, args) => {
 				}else{
 					msg += 'https://open.spotify.com/'+entryId;
 				}
-				if(from == 'server'){
-					for(var i = 0; i < usersIx.length; i++){
+				if(from === 'server'){
+					for(let i = 0; i < usersIx.length; i++){
 						if(entryN < usersIx[i][1]){
 							client.fetchUser(usersIx[i][0]).then(function(data){
 								channel.send('Submitted by: '+data.username+'\n'+msg);
@@ -239,7 +240,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 							break;
 						}
 					}
-				}else if(from != 'all'){
+				}else if(from !== 'all'){
 					channel.send('Submitted by: '+user[1]+'\nTotal songs submitted: '+entries.length.toString()+'\n'+msg);
 				}else{
 					channel.send(msg);

@@ -10,7 +10,7 @@ const globals = require('./globals.js');
 
 exports.run = (client, reddit, spotify, message, args) => {
 
-	if(args[0] == 'stats'){
+	if(args[0] === 'stats'){
 		rpsStats(message.author.id, message);
 	}else if(args[0]){
 		rpsPlay(message.author.id, args[0], message);
@@ -26,16 +26,16 @@ exports.run = (client, reddit, spotify, message, args) => {
 	 * returns:
 	 */
 	function rpsPlay(author, umove, message){
-		var moves = ['What does \"'+umove+'\" means!?', 'Rock', 'Paper', 'Scissors'];
-		var move = moves[Math.floor((Math.random()*3)+1)];
+		let moves = ['What does \"'+umove+'\" means!?', 'Rock', 'Paper', 'Scissors'];
+		let move = moves[Math.floor((Math.random()*3)+1)];
 		umove = umove.charAt(0).toUpperCase()+umove.slice(1);
 		if(!moves.includes(umove)){
 			message.channel.send(moves[0]);
 		}else{
-			if(umove == move){
+			if(umove === move){
 				message.channel.send(move+'\nIt\'s a tie!');
 				globals.editJSON(botStorage, saveWLrps, [author, false, true]);
-			}else if((umove == 'Rock' && move == 'Scissors')||(umove == 'Paper' && move == 'Rock')||(umove == 'Scissors' && move == 'Paper')){
+			}else if((umove === 'Rock' && move === 'Scissors')||(umove === 'Paper' && move === 'Rock')||(umove === 'Scissors' && move === 'Paper')){
 				message.channel.send(move+'\nYou win :(');
 				globals.editJSON(botStorage, saveWLrps, [author, true, false]);
 			}else{
@@ -55,14 +55,14 @@ exports.run = (client, reddit, spotify, message, args) => {
 		fs.readFile(botStorage, 'utf8', function(err, data){
 			if(err){console.log(err);}else{
 				obj = JSON.parse(data);
-				var users = Object.keys(obj.rps);
+				let users = Object.keys(obj.rps);
 				if(!users.includes(author)){
 					message.channel.send('You have never played rps with me, what a boring person...');
 				}else{
-					var us = obj.rps[author];
-					var usT = us[0]+us[1]+us[2];
-					var bs = obj.rps['InitialB'];
-					var bsT = bs[0]+bs[1]+bs[2];
+					let us = obj.rps[author];
+					let usT = us[0]+us[1]+us[2];
+					let bs = obj.rps['InitialB'];
+					let bsT = bs[0]+bs[1]+bs[2];
 					message.channel.send('---'+message.author.username+'---\nWins: '+((Math.round(((us[0]*100)/usT)*100))/100).toString()+'%\nLosses: '+((Math.round(((us[1]*100)/usT)*100))/100).toString()+'%\n---InitialB---\nWins: '+((Math.round(((bs[0]*100)/bsT)*100))/100).toString()+'%\nLosses: '+((Math.round(((bs[1]*100)/bsT)*100))/100).toString()+'%');
 				}
 			}
@@ -76,8 +76,8 @@ exports.run = (client, reddit, spotify, message, args) => {
 	 * returns: new stringify json(string)
 	*/
 	function saveWLrps(author, win, tie, data){
-		obj = JSON.parse(data);
-		var users = Object.keys(obj.rps);
+		let obj = JSON.parse(data);
+		let users = Object.keys(obj.rps);
 		if(!users.includes(author)){
 			obj.rps[author] = [0,0,0];
 			console.log('se agrego nuevo usuario');

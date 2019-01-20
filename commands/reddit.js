@@ -23,9 +23,9 @@ exports.run = (client, reddit, spotify, message, args) => {
 			globals.dateTime(client, 'empezando a conseguir datos');
 			reddit.getHot(sub, {limit: 50}).then(function(posts){
 				globals.dateTime(client, 'datos conseguidos');
-				var subm = Math.floor((Math.random()*50)+1);
+				let subm = Math.floor((Math.random()*50)+1);
 				if(posts[subm.toString()]['over_18']){
-					if(sub == 'all'){sendRandomSubmLink(sub, channel);}else{
+					if(sub === 'all'){sendRandomSubmLink(sub, channel);}else{
 						reddit.getSubreddit(sub).fetch().then(function(data){
 							if(!data.over18){sendRandomSubmLink(sub, channel);}else{
 								channel.send('NSFW subreddits are not accepted, if you think this one should be an exception say so with \"+-report\".');

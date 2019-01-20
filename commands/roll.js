@@ -17,11 +17,11 @@ exports.run = (client, reddit, spotify, message, args) => {
 	 * returns:
 	 */
 	function roll(number, message){
-		var max = 10;
+		let max = 10;
 		if(!isNaN(number) && number > 0){
 			max = number;
 		}
-		var res = Math.floor((Math.random()*max)+1);
+		let res = Math.floor((Math.random()*max)+1);
 		message.channel.send(res.toString());
 	}
 };

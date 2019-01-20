@@ -7,7 +7,7 @@ const globals = require('./globals.js');
 
 exports.run = (client, reddit, spotify, message, args) => {
 
-	var artist = args.join(' ');
+	let artist = args.join(' ');
 	randomArtistSong(artist, message);	
 
 
@@ -22,8 +22,8 @@ exports.run = (client, reddit, spotify, message, args) => {
 	function randomSong(id, message, from = 0, albums = []){
 		spotify.getArtistAlbums(id, {album_type:'album,single', offset:from, limit:50}).then(function(data){
 			albums = albums.concat(data.body.items);
-			if(albums.length%50 == 0){
-					if(albums.length == 0){
+			if(albums.length%50 === 0){
+					if(albums.length === 0){
 						message.channel.send('No music found :(\nTry again or with another artist.');
 						return false;
 					}
@@ -31,12 +31,12 @@ exports.run = (client, reddit, spotify, message, args) => {
 					randomSong(id, message, from += 50, albums);
 			}else{
 				globals.botLog(client, 'cant final: '+albums.length);
-				var randPos = Math.floor((Math.random()*(albums.length-1))+1);
+				let randPos = Math.floor((Math.random()*(albums.length-1))+1);
 				globals.botLog(client, 'id del album '+randPos.toString()+': '+albums[randPos]['id']);
 				spotify.getAlbumTracks(albums[randPos]['id'], {limit:50}).then(function(data){
-					var len = data.body['items'].length;
-					var number = Math.floor((Math.random()*(len-1))+1);
-					if(len == 1){number = 0;}
+					let len = data.body['items'].length;
+					let number = Math.floor((Math.random()*(len-1))+1);
+					if(len === 1){number = 0;}
 					globals.botLog(client, 'id cancion: '+data.body.items[number]['id']);
 					message.channel.send('https://open.spotify.com/track/'+data.body.items[number]['id']);
 				}, function(err){console.error(err);});
@@ -53,7 +53,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 	 */
 	function randomArtistSong(name, message){
 		spotify.search(name, ['artist'], {limit: 2}).then(function(data){
-			if(data.body.artists.items.length == 0){
+			if(data.body.artists.items.length === 0){
 				message.channel.send('No results for \''+name+'\'.');
 				return;
 			}
