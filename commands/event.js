@@ -81,8 +81,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 	*/
 	function scheduleNearEvents(){
 		let now = new Date();
-		let nowPlus2 = new Date();
-		nowPlus2.setDate(now.getDate() + 2);
+		let nowPlus2 = (new Date()).setDate(now.getDate() + 2);
 		let toDelete = [];
 		fs.readFile(scheduleDb, 'utf8', function(err, data){
 			if(err){console.error(err);}else{
@@ -176,7 +175,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 		let filter = m => m.author === author;
 		let filterDate = mm => ((mm.author === author) && (checkDate(mm, author)));
 		let cOptions = {max: 1, time: 300000, errors: ['time']};
-		let timeOutMsg = 'You ran out of time, you have two minutes per question. Try again!';
+		let timeOutMsg = 'You ran out of time, you have five minutes per question. Try again!';
 		message.channel.send('Name of the event?');
 		message.channel.awaitMessages(filter, cOptions).then(function(m){
 			event.name = (m.array())[0].content;
@@ -190,7 +189,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 					let dates = (m3.array())[0].content.split(' ');
 					for(let i = 0; i < dates.length; i++){
 						let d = dates[i].split('-').join(':').split(':');
-						let date = new Date(year, d[1]-1, d[0], d[2]-3, d[3]);
+						let date = new Date(year, d[1]-1, parseInt(d[0], 10), d[2]-3, parseInt(d[3], 10));
 						event.dates.push([date, {votes: 0}]);
 					}
 					saveEvent(event, message);
@@ -244,7 +243,6 @@ exports.run = (client,reddit, spotify, message, args) => {
 			event['id'] = obj.guilds[message.guild.id].ids;
 			obj.guilds[message.guild.id].events.push(event);
 			globals.botLog(client, 'New event saved in '+message.guild.name+'\nEvent: '+event.name);
-			console.log(event);
 			message.channel.send('Your event has been saved!\nUse \"+-event '+obj.guilds[message.guild.id].events.length.toString()+'\" to see its info.');
 			return JSON.stringify(obj);
 		});
@@ -322,8 +320,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 			if(err){console.error(err);}else{
 				let obj = JSON.parse(data);
 				if(hasEvent(obj, channel, guild.id, eventPos)){
-					let events = obj.guilds[guild.id].events;
-					let event = events[eventPos];
+					let event = obj.guilds[guild.id].events[eventPos];
 					let dates = event.dates;
 					let info = '';
 					let foot = '';
