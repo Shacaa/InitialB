@@ -62,14 +62,14 @@ exports.run = (client,reddit, spotify, message, args) => {
 	 */
 	function isOldEvent(event, now){
 		let dates = event.dates;
-		let old = true;
+		let isOld = true;
 		for(let i = 0; i < dates.length; i++){
 			let date = new Date(dates[i][0]);
 			if(date > now){
-				old = false;
+				isOld = false;
 			}
 		}
-		return old;
+		return isOld;
 	}
 
 
@@ -128,7 +128,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 
 	/*
 	 * Notifies in the event's channel the information of the event with given message.
-	 * Dm's everyone interested in the event the information of the event with given message.
+	 * Dm to everyone interested in the event the information of the event with given message.
 	 * Recieves: guild(class), event(Object), msg(string)
 	 * Returns:
 	*/
@@ -268,7 +268,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 
 	/*
 	 * Deletes from the scheduleDb all given events.
-	 * Recieves: toDelete(array -> [[guildId1, event1]])
+	 * Recieves: toDelete(array -> [[guildId1 (string), event1 (object)]])
 	 * Returns: string(stringify json)
 	*/
 	function deleteEvents(toDelete){
@@ -343,7 +343,6 @@ exports.run = (client,reddit, spotify, message, args) => {
 					info += '**Channel:** '+event.channel[0]+'\n';
 					info += '**Description:** \n'+event.description;
 					channel.send({embed:{title:event.name, color:10477034, description:info, footer:{text:foot}}});
-					
 				}
 			}
 		});
@@ -569,7 +568,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 
 
 	/*
-	 * Deletes given date from th scheduleDb.
+	 * Deletes given date from the scheduleDb.
 	 * Recieves: user(class), guildId(string), eventPos(int), channel(class)
 	 * Returns: string(stringify json), false(invalid event)
 	*/
@@ -590,4 +589,4 @@ exports.run = (client,reddit, spotify, message, args) => {
 			return false;
 		});
 	}
-}
+};
