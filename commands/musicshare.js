@@ -47,7 +47,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 	/*
 	 * Gets the youtube or spotify link id's from a string.
 	 * recieves: message(string)
-	 * returns: link id(array:[id]), or false if there is no link(array:[false])
+	 * returns: link id(array -> [id(string)]), or false if there is no link(array -> [false])
 	*/
 	function getYtSpLinkId(msg){
 		let words = msg.split(/ |\n/);
@@ -55,7 +55,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 		let sptTemplate = /(https:\/\/open.spotify.com\/((track)|(album)))/;
 		let link = [false];
 		let id;
-		for(let i in words){
+		for(let i = 0; i < words.length; i++){
 			if(ytTemplate.test(words[i])){
 				if((/https:\/\/youtu.be/).test(words[i])){
 					id = words[i].split('/')[3];
@@ -77,7 +77,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 
 	/*
-	 * Goes through all the #musicshare channels in all the guilds the bot is to check old messages.
+	 * Goes through all the #musicshare channels in all the guilds to check old messages.
 	 * recieves: lastOnline(Date)
 	 * returns:
 	 */
@@ -98,7 +98,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 	/*
 	 * Checks old messages in a channel that were posted since last time the bot was online.
 	 * If a message contains a yt/spotify link it will save it to the musicShareDb.
-	 * recieves: channel(Class object), lastOnline(Date), offset(message id - snowflake), saved(int)
+	 * recieves: channel(class), lastOnline(Date), offset(messageId - string), toSave(array -> [[linkId(string), authorId(string), guildId(string)]])
 	 * returns: 
 	 */
 	function processMsgMusicShare(channel, lastOnline, offset = false, toSave = []){
@@ -141,11 +141,10 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 
 	/*
-	 * Saves link in the user's music data base. If notify it will notify the action in the channel.
-	 * recieves: message(object), linkId(string), notify(boolean), json(string)
+	 * Saves link in musicShareDb. If notify it will notify the action in the channel.
+	 * recieves: message(class), toSave(array -> [[linkId(string), authorId(string), guildId(string)]]), notify(boolean), data(string)
 	 * returns: new stringify json(string)
 	*/
-	//[linkid, authorid, guildid]
 	function saveEntryMusicDb(message, toSave, notify, data){
 		let obj = JSON.parse(data);
 		let saved = 0;
@@ -154,7 +153,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 			let author = toSave[i][1];
 			let serverId = toSave[i][2];
 			if(obj['servers'][serverId]['ids'][toSave[i][0]]){
-				console.log('salteo');
+				console.log('skipped');
 				continue;
 			}
 			if(!obj['servers'][serverId][author]){
@@ -166,10 +165,9 @@ exports.run = (client, reddit, spotify, message, args) => {
 			if(!obj['ids'][toSave[i][0]]){obj['ids'][toSave[i][0]] = [];}
 			saved++;
 		}
+		//TODO check permission to talk in channel before sending message
 		//let permissions = message.channel.permissionsFor(client.user);
 		if(notify && saved > 0){
-			//You can use "+-musicshare" to get a random song.
-			//You can use "+-musicshare" to get a random song. \n Go subscribe to Pewdiepie! :punch:
 			message.channel.send('Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' ).then(function(data, err){
 				if(err){console.error(err);}else{
 					data.delete(30000);
@@ -181,27 +179,32 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 
 	/*
-	 * Sends a random entry from musicDb that wasn't submitted by the author. If all is true, sends entry from any server.
-	 * recieves: author(string), channel(Channel object), serverId(string), all(bool).
-	 * returns:
+	 * If from is "server" it sends a random entry from musicShareDb that wasn't submitted by the author.
+	 * If from is "all", sends entry from any server.
+	 * If from is a mention it sends a random song submitted by that mentioned user.
+	 * recieves: author(string), channel(class), serverId(string), from(string).
+	 * returns: false if invalid
 	*/
 	function sendRandomEntryMusicDb(author, channel, serverId, from){
 		fs.readFile(musicShareDb, 'utf8', function(err, data){
 			if(err){console.log(err);}else{
 				let musicDb = JSON.parse(data);
+				let entries = [];
 				let entryId;
 				let entryN;
+				let msg = '';
+				let usersEntriesIx = [];
+				let user;
 				if(from === 'server'){
 					let users = Object.keys(musicDb.servers[serverId]);
 					users.splice(users.indexOf('ids'), 1);
 					if(musicDb.servers[serverId][author]){ 
 						users.splice(users.indexOf(author), 1);
 					}
-					let entries = [];
-					let usersIx = [];
+					entries = [];
 					for(let i = 0; i < users.length; i++){
 						entries = entries.concat(musicDb.servers[serverId][users[i]]);
-						usersIx.push([(users[i]), (entries.length)]);
+						usersEntriesIx.push([(users[i]), (entries.length)]);
 					}
 					if(entries.length === 0){
 						channel.send('No entries found in this server :(\nTry \'+-musicshare all\'.');
@@ -210,31 +213,31 @@ exports.run = (client, reddit, spotify, message, args) => {
 					entryN = Math.floor(Math.random()*(entries.length));
 					entryId = entries[entryN];
 				}else if(from === 'all'){
-					let entries = Object.keys(musicDb.ids);
+					entries = Object.keys(musicDb.ids);
 					entryId = entries[Math.floor(Math.random()*(entries.length))];
 				}else{
-					let user = from.split(' ');
+					user = from.split(' ');
 					if(musicDb.servers[serverId][user[0]]){
-						let entries = musicDb.servers[serverId][user[0]];
+						entries = musicDb.servers[serverId][user[0]];
 						entryId = entries[Math.floor(Math.random()*(entries.length))];
 					}else{
 						channel.send('There are no songs saved from this user.');
 						return false;
 					}
 				}
-				let msg = '';
 				if(entryId.length === 1){
 					channel.send('There was an error, try again!');
 					return false;
+				//TODO hardcode the lengths of the yt and spotify ids
 				}else if(entryId.length <= 11){
 					msg += 'If video is down please type \"+-report <link>\". Thanks for helping!\nhttps://www.youtube.com/watch?v='+entryId;
 				}else{
 					msg += 'https://open.spotify.com/'+entryId;
 				}
 				if(from === 'server'){
-					for(let i = 0; i < usersIx.length; i++){
-						if(entryN < usersIx[i][1]){
-							client.fetchUser(usersIx[i][0]).then(function(data){
+					for(let i = 0; i < usersEntriesIx.length; i++){
+						if(entryN < usersEntriesIx[i][1]){
+							client.fetchUser(usersEntriesIx[i][0]).then(function(data){
 								channel.send('Submitted by: '+data.username+'\n'+msg);
 							}, function(err){if(err){console.error(err);}});
 							break;
