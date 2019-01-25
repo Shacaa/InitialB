@@ -228,10 +228,9 @@ exports.run = (client, reddit, spotify, message, args) => {
 				if(entryId.length === 1){
 					channel.send('There was an error, try again!');
 					return false;
-				//TODO hardcode the lengths of the yt and spotify ids
-				}else if(entryId.length <= 11){
+				}else if(entryId.length === 11){
 					msg += 'If video is down please type \"+-report <link>\". Thanks for helping!\nhttps://www.youtube.com/watch?v='+entryId;
-				}else{
+				}else if(entryId.length === 22){
 					msg += 'https://open.spotify.com/'+entryId;
 				}
 				if(from === 'server'){
