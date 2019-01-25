@@ -58,7 +58,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 	/*
 	 * Checks if given event has already ended.
 	 * Recieves: event(Object), now(Date)
-	 * Returns: bool
+	 * Returns: boolean
 	 */
 	function isOldEvent(event, now){
 		let dates = event.dates;
@@ -203,7 +203,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 	/*
 	 * Checks if given message has a valid date format and if the message's author is the same one that started creating the event.
 	 * Recieves: message(class), oAuthor(class)
-	 * Returns: bool
+	 * Returns: boolean
 	*/
 	function checkDate(message, oAuthor){
 		let dTemplate = [31, 12, 24, 59];
@@ -252,7 +252,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 	/*
 	 * Checks if the scheduleDb has given event.
 	 * Recieves: schedules(Object), channel(class), guildId(string), eventPos(int)
-	 * Returns: bool
+	 * Returns: boolean
 	*/
 	function hasEvent(schedules, channel, guildId, eventPos = -1){
 		if(!schedules.guilds[guildId] || schedules.guilds[guildId].events.length === 0){
@@ -397,7 +397,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 
 	/*
 	 * Adds user to given date of given event.
-	 * Recieves: user(class), guildId(string), eventPos(int), datePos(int), channel(class), join(bool -> true(join), false(vote))
+	 * Recieves: user(class), guildId(string), eventPos(int), datePos(int), channel(class), join(boolean -> true(join), false(vote))
 	 * Returns: string(stringify json), false(invalid date/event)
 	*/
 	function joinEventDate(user, guildId, eventPos, datePos, channel, join){
@@ -439,7 +439,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 	/*
 	 * Deletes user from given date of given event.
 	 * If it was the only date they were in, they also get deleted from list of interested people.
-	 * Recieves: user(class), guildId(string), eventPos(int), datePos(int), unvote(bool -> true(cancel vote), false(leave event)), channel(class)
+	 * Recieves: user(class), guildId(string), eventPos(int), datePos(int), unvote(boolean -> true(cancel vote), false(leave event)), channel(class)
 	 * Returns: string(stringify json), false(invalid event/date)
 	*/
 	function leaveEventDate(user, guildId, eventPos, datePos, unvote, channel){

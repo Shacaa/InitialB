@@ -6,7 +6,7 @@ const fs = require('fs');
 
 exports.dateTime = (client, msg = '') => {dateTime(client, msg);};
 
-exports.botLog = (client, msg = '', print = true) => {dateTime(client, msg, print);};
+exports.botLog = (client, msg = '', print = true) => {botLog(client, msg, print);};
 
 exports.editJSON = (path, editCallback, args = []) => {editJSON(path, editCallback, args);};
 
@@ -20,42 +20,41 @@ exports.run = (client, reddit, spotify, message, args) => {
 /*
  *Prints actual time and date with an optional message.
  *Also sends the message to a log's channel in owner's server.
- *recieves: message(string)
+ *recieves: client(class), message(string)
  *returns:
 */
 function dateTime(client, msg = ''){
 	let t = new Date();
 	console.log(t.toUTCString()+' - '+msg);
 	botLog(client, msg, false);
-	
 }
 
 
 /*
  * Sends log message to a log's channel in owner's guild.
  * By default also prints log message on console.
- * Recieves: msg(string)
+ * Recieves: client(class), msg(string), print(boolean)
  * Returns: 
 */
 function botLog(client, msg = '', print = true){
 	let guild = client.guilds.get('194251927305846784');
 	let logChannel = guild.channels.get('453389664360071168');
 	logChannel.send(msg);
-	if(print){console.log(msg);}	
+	if(print){dateTime(client, msg);}
 }
 
 
 /*
  * Edits json files applying giving function. The json(stringify) will be given as last argument to the callback function, so write the function around that.
- * recieves: .json path(string), callback function(function), additional arguments used by callback function(array)
- * returns: boolean depending on if it was saved or not.
- * editCallback returns: must return the json(stringify) with the changes made.
+ * recieves: path(string), editCallback(function), args(array)
+ * returns: boolean
+ * editCallback returns: json(stringify)
 */
 function editJSON(path, editCallback, args = []){
 	fs.readFile(path, 'utf8', function(err, data){
 		if(err){console.log(err);}else{
 			args.push(data);
-			json = editCallback.apply(this, args);
+			let json = editCallback.apply(this, args);
 			if(!json){return false;}
 			fs.writeFile(path, json, 'utf8', function(err){
 				if(err){console.log(err);}else{
@@ -69,7 +68,7 @@ function editJSON(path, editCallback, args = []){
 
 /*
  * Sends dm with given message to given user.
- * recieves: discord client, userId(string), message(string or richEmbed)
+ * recieves: client(class), userId(string), message(string or richEmbedObject)
  * returns:
  */
 function sendDm(client, userId, message){
