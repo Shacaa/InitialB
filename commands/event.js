@@ -114,7 +114,6 @@ exports.run = (client,reddit, spotify, message, args) => {
 		if(event.dates.length > 1){return false;}
 		let date = new Date(event.dates[0][0]);
 		schedule.scheduleJob(date, function(){
-			globals.dateTime(client, event.name+' - event running');
 			notifyEvent(guild, event, 'Is time for the event!');
 		});
 		date.setHours(date.getHours()-1);
@@ -144,6 +143,7 @@ exports.run = (client,reddit, spotify, message, args) => {
 					}
 				}
 				if(eventPos === -1){return false;}
+				globals.dateTime(client, event.name+' - event running');
 				globals.dateTime(client, 'Notifying event:\n'+guild.name+': \"'+event.name+'\"');
 				let channel = guild.channels.get(event.channel[1]);
 				channel.send(msg);
