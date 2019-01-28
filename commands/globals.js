@@ -10,6 +10,8 @@ exports.botLog = (client, msg = '', print = true) => {botLog(client, msg, print)
 
 exports.editJSON = (path, editCallback, args = []) => {editJSON(path, editCallback, args);};
 
+exports.editJSONwPromise = (path, editCallback, args = []) => {editJSONwPromise(path, editCallback, args);};
+
 exports.sendDm = (client, userId, msg) => {sendDm(client, userId, msg);};
 
 exports.run = (client, reddit, spotify, message, args) => {
@@ -64,6 +66,26 @@ function editJSON(path, editCallback, args = []){
 		}
 	});
 }
+
+
+function editJSONwPromise(path, editCallback, args = []){
+	return new Promise((resolve, reject) => {
+		fs.readFile(path, 'utf8', function(err, data){
+			if(err){reject(err)}else{
+				args.push(data);
+				let json = editCallback.apply(this, args);
+				if(!json){reject("Error editing json.")}
+				fs.writeFile(path, json, 'utf8', function(err){
+					if(err){reject(err)}else{
+						console.log('Saved');
+						resolve(json);
+					}
+				});
+			}
+		});
+	});
+}
+
 
 
 /*
