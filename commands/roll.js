@@ -12,8 +12,8 @@ exports.run = (client, reddit, spotify, message, args) => {
 	
 
 	/*
-	 * Sends random nuber between 0 and given number (10 if none is given).
-	 * recieves: number(string), message(object)
+	 * Sends random nuber between 0 and given number (10 if none given).
+	 * recieves: number(string), message(class)
 	 * returns:
 	 */
 	function roll(number, message){

@@ -14,7 +14,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 
 	/*
-	 *Sends the link from a random submission to message's channel.
+	 *Sends the link of a random submission from given subreddit's frontpage to message's channel.
 	 *recieves: subreddit(string), message(object)
 	 *returns: link(string)
 	*/
