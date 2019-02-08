@@ -47,14 +47,14 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 
 	/*
-	 * Sends bot and user's win and losses porcentage ratio of rps matches.
-	 * recieves: authorId(string), message(Message object)
+	 * Sends bot and user's win rate of rps matches.
+	 * recieves: authorId(string), message(class)
 	 * returns:
 	*/
 	function rpsStats(author, message){
 		fs.readFile(botStorage, 'utf8', function(err, data){
 			if(err){console.log(err);}else{
-				obj = JSON.parse(data);
+				let obj = JSON.parse(data);
 				let users = Object.keys(obj.rps);
 				if(!users.includes(author)){
 					message.channel.send('You have never played rps with me, what a boring person...');

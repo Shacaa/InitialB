@@ -16,7 +16,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 	/*
 	 * Sends on channel random song from given artist id.
-	 * recieves: id(string), message(object), offset(number), albums(array)
+	 * recieves: id(string), message(class), offset(number), albums(array -> [album(class)])
 	 * returns:
 	 */
 	function randomSong(id, message, from = 0, albums = []){
@@ -27,17 +27,17 @@ exports.run = (client, reddit, spotify, message, args) => {
 						message.channel.send('No music found :(\nTry again or with another artist.');
 						return false;
 					}
-					globals.botLog(client, 'desde: '+from+'\ncant de albums: '+albums.length);
+					globals.botLog(client, 'from: '+from+'\namount of albums: '+albums.length);
 					randomSong(id, message, from += 50, albums);
 			}else{
-				globals.botLog(client, 'cant final: '+albums.length);
+				globals.botLog(client, 'final amount: '+albums.length);
 				let randPos = Math.floor((Math.random()*(albums.length-1))+1);
-				globals.botLog(client, 'id del album '+randPos.toString()+': '+albums[randPos]['id']);
+				globals.botLog(client, 'album '+randPos.toString()+' id: '+albums[randPos]['id']);
 				spotify.getAlbumTracks(albums[randPos]['id'], {limit:50}).then(function(data){
 					let len = data.body['items'].length;
 					let number = Math.floor((Math.random()*(len-1))+1);
 					if(len === 1){number = 0;}
-					globals.botLog(client, 'id cancion: '+data.body.items[number]['id']);
+					globals.botLog(client, 'song\'s id: '+data.body.items[number]['id']);
 					message.channel.send('https://open.spotify.com/track/'+data.body.items[number]['id']);
 				}, function(err){console.error(err);});
 			}
