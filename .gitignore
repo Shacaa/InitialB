@@ -1,0 +1,22 @@
+# gitignore for InitialB.
+
+
+### IDEs
+/.idea/*
+
+### dependencies
+/node_modules/*
+
+### private/personal commands I play around with
+/commands/insideMemes.js
+/commands/debug.js
+/commands/ohoho.js
+/commands/testC.js
+
+### data storage files
+/backups
+/files/botStorage.json
+/files/botTokens.json
+/files/musicShareDb.json
+/files/scheduleDb.json
+/files/googleApi.json
