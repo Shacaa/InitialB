@@ -7,14 +7,15 @@
 ### dependencies
 /node_modules/*
 
-### private/personal commands I play around with
+### for personal use
 /commands/insideMemes.js
 /commands/debug.js
 /commands/ohoho.js
 /commands/testC.js
+/notes/*
 
 ### data storage files
-/backups
+/backups/*
 /files/botStorage.json
 /files/botTokens.json
 /files/musicShareDb.json
