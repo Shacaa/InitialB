@@ -10,7 +10,11 @@ exports.botLog = (client, msg = '', print = true) => {botLog(client, msg, print)
 
 exports.editJSON = (path, editCallback, args = []) => {editJSON(path, editCallback, args);};
 
-exports.editJSONwPromise = (path, editCallback, args = []) => {editJSONwPromise(path, editCallback, args);};
+exports.editJSONwPromise = (path, editCallback, args = []) => {
+	return new Promise((resolve, reject) => {
+		editJSONwPromise(path, resolve, reject, editCallback, args);
+	});
+};
 
 exports.sendDm = (client, userId, msg) => {sendDm(client, userId, msg);};
 
@@ -68,24 +72,25 @@ function editJSON(path, editCallback, args = []){
 }
 
 
-function editJSONwPromise(path, editCallback, args = []){
-	return new Promise((resolve, reject) => {
-		fs.readFile(path, 'utf8', function(err, data){
-			if(err){reject(err)}else{
-				args.push(data);
-				let json = editCallback.apply(this, args);
-				if(!json){reject("Error editing json.")}
-				fs.writeFile(path, json, 'utf8', function(err){
-					if(err){reject(err)}else{
-						console.log('Saved');
-						resolve(json);
-					}
-				});
-			}
-		});
+/*
+* Just like editJson but returns results through resolve/reject functions, this way is possible to use it with promises.
+* recieves: path(string), resolve(function), reject(function), editCallback(function), args(array)
+* returns:
+*/
+function editJSONwPromise(path, resolve, reject, editCallback, args = []){
+	fs.readFile(path, 'utf8', function(err, data){
+		if(err){reject(err);}else{
+			args.push(data);
+			let json = editCallback.apply(this, args);
+			if(!json){reject('error at edit');}
+			fs.writeFile(path, json, 'utf8', function(err){
+				if(err){reject(err);}else{
+					resolve('Saved');
+				}
+			});
+		}
 	});
 }
-
 
 
 /*
