@@ -61,8 +61,8 @@ exports.run = (client, reddit, spotify, message, args) => {
 					id = words[i].split('/')[3];
 				}else{
 					id = words[i].split('v=')[1];
-					if(!id){continue;}
 				}
+				if(!id){continue;}
 				link.push((id.split('&')[0]).split('?')[0]);
 				if(!link[0]){link.shift();}
 			}else if(sptTemplate.test(words[i])){
@@ -86,7 +86,8 @@ exports.run = (client, reddit, spotify, message, args) => {
 		for(let i = 0; i < guilds.length; i++){
 			let channels = guilds[i].channels.array();
 			for(let j = 0; j < channels.length; j++){
-				if((/music-?share/).test(channels[j].name)){
+				let permissions = channels[j].permissionsFor(client.user);
+				if((/^music-?share$/).test(channels[j].name) && permissions.has('VIEW_CHANNEL') && permissions.has('READ_MESSAGE_HISTORY')){
 					processMsgMusicShare(channels[j], lastOnline);
 				}
 			}
@@ -136,7 +137,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 					});
 				}
 			}
-		});
+		}).catch(err => console.error(err));
 	}
 
 

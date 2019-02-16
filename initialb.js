@@ -55,7 +55,7 @@ client.on('ready', function(){
 		obj.isOnline = true;
 		return JSON.stringify(obj);
 	});
-	client.user.setPresence({game:{name:'+-help'}, status:'online'});
+	client.user.setPresence({game:{name:'+-help'}, status:'online'}).catch(err => console.error(err));
 	let musicshare = require('./commands/musicshare.js');
 	let event = require('./commands/event.js');
 	musicshare.run(client, reddit, spotify, false, ['processMsChannels']);
@@ -69,8 +69,7 @@ client.on('error', function(err){
 		globals.editJSON(botStorage, function(data){
 			let obj = JSON.parse(data);
 			if(obj.isOnline){
-				let date = new Date();
-				obj.lastOnline = date;
+				obj.lastOnline = new Date();
 				obj.isOnline = false;
 			}
 			return JSON.stringify(obj);
@@ -107,7 +106,7 @@ client.on('message', function(message){
 			message.channel.send('Use \"+-help\" to get a list of all the commands.');
 		}
 		
-	}else if((/music-?share/).test(message.channel.name) && !message.author.bot){
+	}else if((/^music-?share$/).test(message.channel.name) && !message.author.bot){
 		let commandFile = require('./commands/musicshare.js');
 		commandFile.run(client, reddit, spotify, message, ['message']);
 	}
@@ -141,5 +140,5 @@ schedule.scheduleJob(rule, function(){
 	});
 });
 
-client.login(botTokens.discord.token);
+client.login(botTokens.discord.token).catch(err => console.error(err));
 
