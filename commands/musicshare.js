@@ -62,13 +62,17 @@ exports.run = (client, reddit, spotify, message, args) => {
 				}else{
 					id = words[i].split('v=')[1];
 				}
-				if(!id){continue;}
-				link.push((id.split('&')[0]).split('?')[0]);
+				if(!id){continue}
+				id = (id.split('&')[0]).split('?')[0];
+				if(id.length !== 11){continue}
+				link.push(id);
 				if(!link[0]){link.shift();}
 			}else if(sptTemplate.test(words[i])){
 				let linkParts = words[i].split('/');
 				id = linkParts[3]+'/'+linkParts[4];
-				link.push(id.split('?si=')[0]);
+				id = id.split('?si=')[0];
+				if(id.length !== 28){continue}
+				link.push(id);
 				if(!link[0]){link.shift();}
 			}
 		}
@@ -226,13 +230,13 @@ exports.run = (client, reddit, spotify, message, args) => {
 						return false;
 					}
 				}
-				if(entryId.length === 1){
+				if(entryId.length === 11){
+					msg += 'If video is down please type \"+-report <link>\". Thanks for helping!\nhttps://www.youtube.com/watch?v='+entryId;
+				}else if(entryId.length === 28){
+					msg += 'https://open.spotify.com/'+entryId;
+				}else{
 					channel.send('There was an error, try again!');
 					return false;
-				}else if(entryId.length === 11){
-					msg += 'If video is down please type \"+-report <link>\". Thanks for helping!\nhttps://www.youtube.com/watch?v='+entryId;
-				}else if(entryId.length === 22){
-					msg += 'https://open.spotify.com/'+entryId;
 				}
 				if(from === 'server'){
 					for(let i = 0; i < usersEntriesIx.length; i++){
