@@ -151,12 +151,12 @@ exports.run = (client,reddit, spotify, message, args) => {
 				let participants = Object.keys(obj.guilds[guild.id].events[eventPos].dates[0][1]);
 				for(let i = 0; i < participants.length; i++){
 					if(participants[i] === 'votes'){continue;}
-					client.fetchUser(participants[i]).then(function(data){
-						data.createDM().then(function(dm){
-							dm.send('Server: '+guild.name+'\n'+msg);
+					client.fetchUser(participants[i]).then(data => {
+						data.createDM().then(dm => {
+							dm.send('Server: '+guild.name+'\n'+msg).catch(err => console.error(err));
 							aboutEvent(guild, dm, eventPos);
-						}, function(err){if(err){console.error(err);}});
-					}, function(err){if(err){console.error(err);}});
+						}).catch(err => console.error(err));
+					}).catch(err => console.error(err));
 				}
 			}
 		});
