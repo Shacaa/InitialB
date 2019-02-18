@@ -5,7 +5,7 @@
 
 const owner = '116758923603738625';
 
-const fs = require('fs');
+
 const globals = require('./commands/globals.js');
 const botStorage = './files/botStorage.json';
 const botTokens = require('./files/botTokens.json');
@@ -86,7 +86,7 @@ client.on('message', function(message){
 	if(insideMemes.run(client, message, [])){return false;}
 	if((message.content.startsWith('+-')) && (!message.author.bot)){
 		if(message.channel.type === 'dm'){
-			message.channel.send("At the moment you can't use commands in dm's, will make it possible soon.\nMake sure to use \"+-help\" on your server to get a list of all the commands!");
+			globals.sendMessage(message.channel, "At the moment you can't use commands in dm's, will make it possible soon.\nMake sure to use \"+-help\" on your server to get a list of all the commands!");
 			globals.botLog(client, `Use of command in dm:\n${message.author.username} - ${message.author.id}\nMessage: ${message.content}`);
 			return false;
 		}
@@ -103,7 +103,7 @@ client.on('message', function(message){
 				console.error(err);
 			}
 		}else{
-			message.channel.send('Use \"+-help\" to get a list of all the commands.');
+			globals.sendMessage(message.channel, 'Use \"+-help\" to get a list of all the commands.');
 		}
 		
 	}else if((/^music-?share$/).test(message.channel.name) && !message.author.bot){

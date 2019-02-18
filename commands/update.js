@@ -3,6 +3,7 @@
  * Refreshes cache of given command.
  */
 
+const globals = require('./globals.js');
 const owner = '116758923603738625';
 const commands = [
 	"about",
@@ -27,7 +28,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 	if(message.author.id !== owner){
 		return false;
 	}
-	updateFile(args[0], message);
+	updateFile(client, args[0], message);
 	
 };
 
@@ -37,7 +38,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 * recieves: file(string), message(class)
 * returns:
 */
-function updateFile(file, message){
+function updateFile(client, file, message){
 	try{
 		if(file === 'all'){
 			for(let i = 0; i < commands.length; i++){
@@ -46,8 +47,8 @@ function updateFile(file, message){
 		}else{
 			delete require.cache[require.resolve(`./${file}.js`)];
 		}
-		console.log(`${file} updated`);
-		message.channel.send(`${file} updated`);
+		globals.botLog(client, `${file} updated`);
+		globals.sendMessage(message.channel, `${file} updated`);
 	}catch(err){
 		console.error(err);
 	}

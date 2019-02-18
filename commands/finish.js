@@ -14,9 +14,11 @@ exports.run = (client, reddit, spotify, message, args) => {
 		return JSON.stringify(obj);
 	}).then(response => {
 		console.log(response);
+		globals.botLog(client, 'Bot finished with exit code 0');
 		process.exit(0);
 	}).catch(err => {
 		console.error(err);
+		globals.botLog(client, 'Bot finished with exit code 1');
 		process.exit(1);
 	});
 	client.destroy();
