@@ -10,9 +10,11 @@ exports.botLog = (client, message = '') => botLog(client, message);
 
 exports.sendDm = (client, userId, message) => sendDm(client, userId, message);
 
-exports.sendMessage = (channel, message) => sendMessage(channel, message);
-
 exports.editJSON = (path, editCallback, args = []) => editJSON(path, editCallback, args);
+
+exports.sendMessage = (channel, message) => {
+	return new Promise((resolve, reject) => sendMessage(channel, message, resolve, reject));
+};
 
 exports.editJSONwPromise = (path, editCallback, args = []) => {
 	return new Promise((resolve, reject) => {
@@ -43,7 +45,7 @@ function botLog(client, message = ''){
 	let guild = client.guilds.get('194251927305846784');
 	let logChannel = guild.channels.get('453389664360071168');
 	sendMessage(logChannel, message);
-	dateTime(client, message);
+	dateTime(message);
 }
 
 
@@ -96,18 +98,25 @@ function editJSONwPromise(path, resolve, reject, editCallback, args = []){
  * returns:
  */
 function sendDm(client, userId, message){
-	client.fetchUser(userId).then(function(data){
-		data.createDM().then(function(dm){dm.send(message);}, function(err){if(err){console.error(err);}});
-	}, function(err){if(err){console.error(err);}});	
+	client.fetchUser(userId)
+		.then(user => user.createDM()
+			.then(dm => dm.send(message).catch(err => console.error(err)))
+			.catch(err => console.error(err)))
+		.catch(err => console.error(err));
 }
 
 
 /*
 * Sends (embed)message to given text channel.
-* recieves: channel(class), message(string/object)
+* Can be used as if it returns a promise.
+* recieves: channel(class), message(string/object), resolve(function), reject(function)
 * returns:
 */
-function sendMessage(channel, message){
+function sendMessage(channel, message, resolve, reject){
 	channel.send(message)
-		.catch(err => console.error(err));
+		.then(response => resolve && resolve(response))
+		.catch(err => {
+			console.error(err);
+			reject && reject(err);
+		});
 }

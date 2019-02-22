@@ -26,7 +26,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 			for(let i = 0; i < linkIds.length; i++){
 				ids.push([linkIds[i], message.author.id, message.guild.id]);
 			}
-			globals.editJSON(musicShareDb, saveEntryMusicDb, [message , ids, true, client]);
+			globals.editJSON(musicShareDb, saveEntryMusicDb, [client, message , ids, true]);
 		}
 	}else{
 		let mentions = message.mentions.members.array();
@@ -126,7 +126,7 @@ function processMsgMusicShare(client, channel, lastOnline, offset = false, toSav
 		}
 		if(i === 100){processMsgMusicShare(client, channel, lastOnline, messages[i-1].id, toSave);}else{
 			if(toSave.length > 0){
-				globals.editJSON(musicShareDb, saveEntryMusicDb, [channel, toSave, false, client]);
+				globals.editJSON(musicShareDb, saveEntryMusicDb, [client, channel, toSave, false]);
 				let text = ' songs';
 				if(toSave.length === 1){text = ' song';}
 				// globals.sendMessage(channel, toSave.length.toString()+text+' saved since last time I was online.\nYou can use \"+-musicshare\" to get a random song.').then(function(data, err){
@@ -150,7 +150,7 @@ function processMsgMusicShare(client, channel, lastOnline, offset = false, toSav
  * recieves: message(class), toSave(array -> [[linkId(string), authorId(string), guildId(string)]]), notify(boolean), data(string)
  * returns: new stringify json(string)
 */
-function saveEntryMusicDb(message, toSave, notify, data, client){
+function saveEntryMusicDb(client, message, toSave, notify, data){
 	let obj = JSON.parse(data);
 	let saved = 0;
 	console.log(toSave);
@@ -173,11 +173,8 @@ function saveEntryMusicDb(message, toSave, notify, data, client){
 	//TODO check permission to talk in channel before sending message
 	//let permissions = message.channel.permissionsFor(client.user);
 	if(notify && saved > 0){
-		globals.sendMessage(message.channel, 'Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' ).then(function(data, err){
-			if(err){console.error(err);}else{
-				data.delete(30000);
-			}
-		});
+		globals.sendMessage(message.channel, 'Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' )
+			.then(data => data.delete(30000));
 	}
 	return JSON.stringify(obj);
 }
