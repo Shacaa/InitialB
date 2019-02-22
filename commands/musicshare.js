@@ -70,7 +70,7 @@ function getYtSpLinkId(msg){
 		}else if(sptTemplate.test(words[i])){
 			let linkParts = words[i].split('/');
 			id = linkParts[3]+'/'+linkParts[4];
-			id = id.split('?si=')[0];
+			id = id.split('?')[0];
 			if(id.length !== 28){continue}
 			link.push(id);
 			if(!link[0]){link.shift();}
