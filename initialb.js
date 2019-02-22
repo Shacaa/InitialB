@@ -65,7 +65,7 @@ client.on('ready', function(){
 
 client.on('error', function(err){
 	if(err.code = 'ENOENT'){
-		globals.dateTime(client, 'connection lost');
+		globals.botLog(client, 'connection lost');
 		globals.editJSON(botStorage, function(data){
 			let obj = JSON.parse(data);
 			if(obj.isOnline){
@@ -94,7 +94,7 @@ client.on('message', function(message){
 		if(!permissions.has('SEND_MESSAGES')){return false;}
 		let args = message.content.slice(2).trim().split(' ');
 		let command = args.shift();
-		globals.dateTime(client, message.author.id+'\n'+command+': '+args.toString());
+		globals.botLog(client, message.author.id+'\n'+command+': '+args.toString());
 		if(commands[command]){
 			try{
 				let commandFile = require(`./commands/${command}.js`);
@@ -118,7 +118,7 @@ client.on('message', function(message){
  */
 client.on('guildCreate', function(guild){
 	let msg = 'Joined '+guild.name+' guild.\nGuild id: '+guild.id;
-	globals.dateTime(client, msg);
+	globals.botLog(client, msg);
 	globals.sendDm(client, owner, msg+'\nOwner: '+guild.owner.user.username+' - '+guild.ownerID);
 	globals.editJSON('./files/musicShareDb.json', function(data){
 		let obj = JSON.parse(data);
@@ -131,10 +131,10 @@ client.on('guildCreate', function(guild){
 
 
 schedule.scheduleJob(rule, function(){
-	globals.dateTime(client, 'Getting spotify credentials.');
+	globals.botLog(client, 'Getting spotify credentials.');
 	spotify.clientCredentialsGrant().then(function(data, err){
-		if(err){console.log(err);}else{
-			globals.dateTime(client, 'Spotify access token expires in '+data.body['expires_in']);
+		if(err){console.error(err);}else{
+			globals.botLog(client, 'Spotify access token expires in '+data.body['expires_in']);
 			spotify.setAccessToken(data.body['access_token']);
 		}
 	});
