@@ -170,9 +170,8 @@ function saveEntryMusicDb(client, message, toSave, notify, data){
 		if(!obj['ids'][toSave[i][0]]){obj['ids'][toSave[i][0]] = [];}
 		saved++;
 	}
-	//TODO check permission to talk in channel before sending message
-	//let permissions = message.channel.permissionsFor(client.user);
-	if(notify && saved > 0){
+	let permissions = message.channel.permissionsFor(client.user);
+	if(notify && saved > 0 && permissions.has('SEND_MESSAGES')){
 		globals.sendMessage(message.channel, 'Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' )
 			.then(data => data.delete(30000));
 	}
