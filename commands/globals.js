@@ -3,6 +3,7 @@
  */
 
 const fs = require('fs');
+const schedule = require('node-schedule');
 
 exports.dateTime = (message = '') => dateTime(message);
 
@@ -11,6 +12,8 @@ exports.botLog = (client, message = '') => botLog(client, message);
 exports.sendDm = (client, userId, message) => sendDm(client, userId, message);
 
 exports.editJSON = (path, editCallback, args = []) => editJSON(path, editCallback, args);
+
+exports.cancelAllScheduledJobs = () => cancelAllScheduledJobs();
 
 exports.sendMessage = (channel, message) => {
 	return new Promise((resolve, reject) => sendMessage(channel, message, resolve, reject));
@@ -120,4 +123,19 @@ function sendMessage(channel, message, resolve, reject){
 			console.error(err);
 			reject && reject(err);
 		});
+}
+
+
+/*
+* Cancels all jobs scheduled by node-schedule.
+* recieves:
+* returns:
+*/
+function cancelAllScheduledJobs(){
+	let scheduledJobs = schedule.scheduledJobs;
+	let jobNames = Object.keys(scheduledJobs);
+	for(let i = 0; i < jobNames.length; i++){
+		scheduledJobs[jobNames[i]].cancel();
+	}
+	dateTime('All scheduled jobs canceled');
 }

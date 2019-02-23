@@ -1,11 +1,15 @@
 /*
- * Finish command.
+ * Finish command. Terminates discord bot, cancels all scheduled jobs, terminates node process.
  */
 
 const botStorage = './files/botStorage.json';
 const globals = require('./globals.js');
 
 exports.run = (client, reddit, spotify, message, args) => {
+
+	globals.cancelAllScheduledJobs();
+
+	client.destroy();
 
 	globals.editJSONwPromise(botStorage, data => {
 		let obj = JSON.parse(data);
@@ -14,13 +18,13 @@ exports.run = (client, reddit, spotify, message, args) => {
 		return JSON.stringify(obj);
 	}).then(response => {
 		console.log(response);
-		globals.botLog(client, 'Bot finished with exit code 0');
-		process.exit(0);
+		globals.dateTime('Bot finished with exit code 0');
+		process.exitCode = 0;
 	}).catch(err => {
 		console.error(err);
-		globals.botLog(client, 'Bot finished with exit code 1');
-		process.exit(1);
+		globals.dateTime('Bot finished with exit code 1');
+		process.exitCode = 1;
 	});
-	client.destroy();
+
 
 };
