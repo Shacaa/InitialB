@@ -82,7 +82,7 @@ function getYtSpLinkId(msg){
 
 /*
  * Goes through all the #musicshare channels in all the guilds to check old messages.
- * recieves: lastOnline(Date)
+ * recieves: lastOnline(Date), client(class)
  * returns:
  */
 function checkMusicShare(lastOnline, client){
@@ -103,7 +103,7 @@ function checkMusicShare(lastOnline, client){
 /*
  * Checks old messages in a channel that were posted since last time the bot was online.
  * If a message contains a yt/spotify link it will save it to the musicShareDb.
- * recieves: channel(class), lastOnline(Date), offset(messageId - string), toSave(array -> [[linkId(string), authorId(string), guildId(string)]])
+ * recieves: client(class), channel(class), lastOnline(Date), offset(messageId - string), toSave(array -> [[linkId(string), authorId(string), guildId(string)]])
  * returns:
  */
 function processMsgMusicShare(client, channel, lastOnline, offset = false, toSave = []){
@@ -147,7 +147,7 @@ function processMsgMusicShare(client, channel, lastOnline, offset = false, toSav
 
 /*
  * Saves link in musicShareDb. If notify it will notify the action in the channel.
- * recieves: message(class), toSave(array -> [[linkId(string), authorId(string), guildId(string)]]), notify(boolean), data(string)
+ * recieves: client(class), message(class), toSave(array -> [[linkId(string), authorId(string), guildId(string)]]), notify(boolean), data(string)
  * returns: new stringify json(string)
 */
 function saveEntryMusicDb(client, message, toSave, notify, data){
@@ -184,7 +184,7 @@ function saveEntryMusicDb(client, message, toSave, notify, data){
  * If from is "server" it sends a random entry from musicShareDb that wasn't submitted by the author.
  * If from is "all", sends entry from any server.
  * If from is a mention it sends a random song submitted by that mentioned user.
- * recieves: author(string), channel(class), serverId(string), from(string).
+ * recieves: client(class), author(string), channel(class), serverId(string), from(string).
  * returns: false if invalid
 */
 function sendRandomEntryMusicDb(client, author, channel, serverId, from){

@@ -17,7 +17,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 /*
  * Sends on channel random song from given artist id.
- * recieves: id(string), message(class), offset(number), albums(array -> [album(class)])
+ * recieves: client(class), spotify(class), id(string), message(class), offset(number), albums(array -> [album(class)])
  * returns:
  */
 function randomSong(client, spotify, id, message, from = 0, albums = []){
@@ -49,7 +49,7 @@ function randomSong(client, spotify, id, message, from = 0, albums = []){
 
 /*
  * Searches id of given artist name and sends on channel random song from him.
- * recieves: artist name(string), message(object)
+ * recieves: client(class), spotify(class), artist name(string), message(object)
  * returns:
  */
 function randomArtistSong(client, spotify, name, message){

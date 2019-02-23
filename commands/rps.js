@@ -23,7 +23,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 /*
  * Picks a random move and sends the results depending the user's move.
- * recieves: author's id(string), user's move(string), message(object)
+ * recieves: client(class), author's id(string), user's move(string), message(class)
  * returns:
  */
 function rpsPlay(client, author, umove, message){
@@ -73,7 +73,7 @@ function rpsStats(author, message){
 
 /*
  * Saves the rps match result into bot and users's stats.
- * recieves: authorId(string), win(boolean), tie(boolean), rps stats data(stringify json)
+ * recieves: client(class), authorId(string), win(boolean), tie(boolean), data(stringify json)
  * returns: new stringify json(string)
 */
 function saveWLrps(client, author, win, tie, data){

@@ -76,7 +76,7 @@ function isOldEvent(event, now){
 /*
  * Schedules all future events of the next two days from now.
  * Also deletes any old event.
- * Recieves:
+ * Recieves: client(class)
  * Returns:
 */
 function scheduleNearEvents(client){
@@ -107,7 +107,7 @@ function scheduleNearEvents(client){
 
 /*
  * Schedules given event if a date has been decided.
- * Recieves: guild(class), event(Object)
+ * Recieves: guild(class), event(Object), client(class)
  * Returns:
 */
 function scheduleEvent(guild, event, client){
@@ -128,7 +128,7 @@ function scheduleEvent(guild, event, client){
 /*
  * Notifies in the event's channel the information of the event with given message.
  * Dm to everyone interested in the event the information of the event with given message.
- * Recieves: guild(class), event(Object), msg(string)
+ * Recieves: guild(class), event(Object), msg(string), client(class)
  * Returns:
 */
 function notifyEvent(guild, event, msg, client){
@@ -165,7 +165,7 @@ function notifyEvent(guild, event, msg, client){
 
 /*
  * Guides the user with some questions to create an event.
- * Recieves: message(class)
+ * Recieves: message(class), client(class)
  * Returns:
 */
 function createEvent(message, client){
@@ -230,7 +230,7 @@ function checkDate(message, oAuthor){
 
 /*
  * Saves given event to the scheduleDb.
- * Recieves: event(Object), message(class)
+ * Recieves: event(Object), message(class), client(class)
  * Returns: string(stringify json)
 */
 function saveEvent(event, message, client){
@@ -268,7 +268,7 @@ function hasEvent(schedules, channel, guildId, eventPos = -1){
 
 /*
  * Deletes from the scheduleDb all given events.
- * Recieves: toDelete(array -> [[guildId1 (string), event1 (object)]])
+ * Recieves: toDelete(array -> [[guildId1 (string), event1 (object)]]), client(class)
  * Returns: string(stringify json)
 */
 function deleteEvents(toDelete, client){
@@ -511,7 +511,7 @@ function cantAssistEvent(user, guildId, eventPos, channel){
 /*
  * Sets given date as the date for the event.
  * Notifies all the members interested in the event about the decided date.
- * Recieves: guild(class), eventPos(int), finalDate(array -> [Date, object]), channel(class)
+ * Recieves: guild(class), eventPos(int), finalDate(array -> [Date, object]), channel(class), client(class)
  * Returns: string(stringify json)
 */
 function decideDate(guild, eventPos, finalDate, channel, client){
@@ -535,7 +535,7 @@ function decideDate(guild, eventPos, finalDate, channel, client){
 /*
  * Gives event's host all the options to choose from to decide a final date for the event.
  * Sets that date for the event.
- * Recieves: user(class), guild(class), eventPos(int), channel(class)
+ * Recieves: user(class), guild(class), eventPos(int), channel(class), client(class)
  * Returns:
 */
 function closeVotes(user, guild, eventPos, channel, client){
@@ -569,7 +569,7 @@ function closeVotes(user, guild, eventPos, channel, client){
 
 /*
  * Deletes given date from the scheduleDb.
- * Recieves: user(class), guildId(string), eventPos(int), channel(class)
+ * Recieves: user(class), guildId(string), eventPos(int), channel(class), client(class)
  * Returns: string(stringify json), false(invalid event)
 */
 function cancelEvent(user, guildId, eventPos, channel, client){

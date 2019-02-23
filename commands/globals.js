@@ -26,7 +26,7 @@ exports.editJSONwPromise = (path, editCallback, args = []) => {
 
 /*
  *Prints actual date and time with an optional message on console.
- *recieves: client(class), message(string)
+ *recieves: message(string)
  *returns:
 */
 function dateTime(message = ''){
@@ -43,6 +43,7 @@ function dateTime(message = ''){
 */
 function botLog(client, message = ''){
 	let guild = client.guilds.get('194251927305846784');
+	if(!guild){console.error(guild)}
 	let logChannel = guild.channels.get('453389664360071168');
 	sendMessage(logChannel, message);
 	dateTime(message);

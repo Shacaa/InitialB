@@ -35,7 +35,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 /*
 * Updates given command file. If "all" it updates every file.
-* recieves: file(string), message(class)
+* recieves: client(class), file(string), message(class)
 * returns:
 */
 function updateFile(client, file, message){
