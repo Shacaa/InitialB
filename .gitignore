@@ -17,7 +17,7 @@
 ### data storage files
 /backups/*
 /files/botStorage.json
-/files/botTokens.json
+/files/botInfo.json
 /files/musicShareDb.json
 /files/scheduleDb.json
 /files/googleApi.json
