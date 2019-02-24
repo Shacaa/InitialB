@@ -4,6 +4,7 @@
 
 const fs = require('fs');
 const schedule = require('node-schedule');
+const botInfo = require('../files/botInfo.json');
 
 exports.dateTime = (message = '') => dateTime(message);
 
@@ -45,9 +46,9 @@ function dateTime(message = ''){
  * Returns: 
 */
 function botLog(client, message = ''){
-	let guild = client.guilds.get('194251927305846784');
+	let guild = client.guilds.get(botInfo.owner.guild);
 	if(!guild){console.error(guild)}
-	let logChannel = guild.channels.get('453389664360071168');
+	let logChannel = guild.channels.get(botInfo.owner.logChannel);
 	sendMessage(logChannel, message);
 	dateTime(message);
 }

@@ -4,28 +4,12 @@
  */
 
 const globals = require('./globals.js');
-const owner = '116758923603738625';
-const commands = [
-	"about",
-	"event",
-	"finish",
-	"help",
-	"invite",
-	"musicshare",
-	"reddit",
-	"report",
-	"roll",
-	"rps",
-	"spotify",
-	"testC",
-	"update",
-	"debug",
-	"ohoho"
-];
+const botInfo = require('../files/botInfo.json');
+
 
 exports.run = (client, reddit, spotify, message, args) => {
 
-	if(message.author.id !== owner){
+	if(message.author.id !== botInfo.owner.id){
 		return false;
 	}
 	updateFile(client, args[0], message);
@@ -36,16 +20,20 @@ exports.run = (client, reddit, spotify, message, args) => {
 /*
 * Updates given command file. If "all" it updates every file.
 * recieves: client(class), file(string), message(class)
-* returns:
+* returns: false (if wrong command name)
 */
 function updateFile(client, file, message){
+	let commandsArr = Object.keys(botInfo.commands);
 	try{
 		if(file === 'all'){
-			for(let i = 0; i < commands.length; i++){
-				delete require.cache[require.resolve(`./${commands[i]}.js`)];
+			for(let i = 0; i < commandsArr.length; i++){
+				delete require.cache[require.resolve(`./${commandsArr[i]}.js`)];
 			}
-		}else{
+		}else if(botInfo.commands[file]){
 			delete require.cache[require.resolve(`./${file}.js`)];
+		}else{
+			globals.sendMessage(message.channel, `${file} not found`);
+			return false;
 		}
 		globals.botLog(client, `${file} updated`);
 		globals.sendMessage(message.channel, `${file} updated`);

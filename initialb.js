@@ -3,48 +3,24 @@
  * 
 */
 
-const owner = '116758923603738625';
-
 
 const globals = require('./commands/globals.js');
 const botStorage = './files/botStorage.json';
-const botTokens = require('./files/botTokens.json');
+const botInfo = require('./files/botInfo.json');
 const botLog = './botLog.txt';
-const googleCredentials = './files/googleApi.json';
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const snoowrap = require('snoowrap');
-const reddit = new snoowrap(botTokens.reddit);
+const reddit = new snoowrap(botInfo.reddit);
 
 const spotifyWebApi = require('spotify-web-api-node');
-const spotify = new spotifyWebApi(botTokens.spotify);
+const spotify = new spotifyWebApi(botInfo.spotify);
 
 const schedule = require('node-schedule');
 const rule = new schedule.RecurrenceRule();
 rule.minute = (new Date()).getMinutes() + 1;
-
-
-
-
-const commands = {
-	"about":[],
-	"event":[],
-	"finish":[],
-	"help":[],
-	"invite":[],
-	"musicshare":[],
-	"reddit":[],
-	"report":[],
-	"roll":[],
-	"rps":[],
-	"spotify":[],
-	"testC":[],
-	"update":[],
-	"debug":[],
-	"ohoho":[]
-};
 
 
 
@@ -95,7 +71,7 @@ client.on('message', function(message){
 		let args = message.content.slice(2).trim().split(' ');
 		let command = args.shift();
 		globals.botLog(client, message.author.id+'\n'+command+': '+args.toString());
-		if(commands[command]){
+		if(botInfo.commands[command]){
 			try{
 				let commandFile = require(`./commands/${command}.js`);
 				commandFile.run(client, reddit, spotify, message, args);
@@ -119,7 +95,7 @@ client.on('message', function(message){
 client.on('guildCreate', function(guild){
 	let msg = 'Joined '+guild.name+' guild.\nGuild id: '+guild.id;
 	globals.botLog(client, msg);
-	globals.sendDm(client, owner, msg+'\nOwner: '+guild.owner.user.username+' - '+guild.ownerID);
+	globals.sendDm(client, botInfo.owner.id, msg+'\nOwner: '+guild.owner.user.username+' - '+guild.ownerID);
 	globals.editJSON('./files/musicShareDb.json', function(data){
 		let obj = JSON.parse(data);
 		if(!obj.servers[guild.id]){
@@ -140,5 +116,5 @@ schedule.scheduleJob(rule, function(){
 	});
 });
 
-client.login(botTokens.discord.token).catch(err => console.error(err));
+client.login(botInfo.discord.token).catch(err => console.error(err));
 
