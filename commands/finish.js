@@ -3,28 +3,30 @@
  */
 
 const botStorage = './files/botStorage.json';
+const botInfo = require('../files/botInfo.json');
 const globals = require('./globals.js');
 
 exports.run = (client, reddit, spotify, message, args) => {
 
-	globals.cancelAllScheduledJobs();
+	if(message.author.id === botInfo.owner.id){
+		globals.cancelAllScheduledJobs();
 
-	client.destroy();
+		client.destroy();
 
-	globals.editJSONwPromise(botStorage, data => {
-		let obj = JSON.parse(data);
-		obj.lastOnline = new Date();
-		obj.isOnline = false;
-		return JSON.stringify(obj);
-	}).then(response => {
-		console.log(response);
-		globals.dateTime('Bot finished with exit code 0');
-		process.exitCode = 0;
-	}).catch(err => {
-		console.error(err);
-		globals.dateTime('Bot finished with exit code 1');
-		process.exitCode = 1;
-	});
-
+		globals.editJSONwPromise(botStorage, data => {
+			let obj = JSON.parse(data);
+			obj.lastOnline = new Date();
+			obj.isOnline = false;
+			return JSON.stringify(obj);
+		}).then(response => {
+			console.log(response);
+			globals.dateTime('Bot finished with exit code 0');
+			process.exitCode = 0;
+		}).catch(err => {
+			console.error(err);
+			globals.dateTime('Bot finished with exit code 1');
+			process.exitCode = 1;
+		});
+	}
 
 };
