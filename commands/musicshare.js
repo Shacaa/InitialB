@@ -26,7 +26,7 @@ exports.run = (client, reddit, spotify, message, args) => {
 			for(let i = 0; i < linkIds.length; i++){
 				ids.push([linkIds[i], message.author.id, message.guild.id]);
 			}
-			globals.editJSON(musicShareDb, saveEntryMusicDb, [client, message , ids, true]);
+			globals.editJSON(musicShareDb, saveEntryMusicDb, [client, message.channel, ids, true]);
 		}
 	}else{
 		let mentions = message.mentions.members.array();
@@ -147,10 +147,10 @@ function processMsgMusicShare(client, channel, lastOnline, offset = false, toSav
 
 /*
  * Saves link in musicShareDb. If notify it will notify the action in the channel.
- * recieves: client(class), message(class), toSave(array -> [[linkId(string), authorId(string), guildId(string)]]), notify(boolean), data(string)
+ * recieves: client(class), channel(class), toSave(array -> [[linkId(string), authorId(string), guildId(string)]]), notify(boolean), data(string)
  * returns: new stringify json(string)
 */
-function saveEntryMusicDb(client, message, toSave, notify, data){
+function saveEntryMusicDb(client, channel, toSave, notify, data){
 	let obj = JSON.parse(data);
 	let saved = 0;
 	console.log(toSave);
@@ -170,9 +170,9 @@ function saveEntryMusicDb(client, message, toSave, notify, data){
 		if(!obj['ids'][toSave[i][0]]){obj['ids'][toSave[i][0]] = [];}
 		saved++;
 	}
-	let permissions = message.channel.permissionsFor(client.user);
+	let permissions = channel.permissionsFor(client.user);
 	if(notify && saved > 0 && permissions.has('SEND_MESSAGES')){
-		globals.sendMessage(message.channel, 'Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' )
+		globals.sendMessage(channel, 'Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' )
 			.then(data => data.delete(30000));
 	}
 	return JSON.stringify(obj);
