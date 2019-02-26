@@ -1,4 +1,4 @@
-# InitialB ver 2.0.1
+# InitialB ver 2.1.0
 InitialB is a Discord bot developed by me.  
 If you want to use it feel free to do so and let me know what you think.  
   
@@ -27,8 +27,4 @@ With the reddit command you can get a random post from any subreddit's frontpage
 Play "Rock, Paper, Scissors" with InitialB and get to know your winrate with the stats command.
 
 
-**Libraries used:**  
-[discordjs](https://discord.js.org/#/)  
-[snoowrap](https://not-an-aardvark.github.io/snoowrap/index.html)  
-[Spotify Web API Node](https://github.com/thelinmichael/spotify-web-api-node)  
-[node-schedule](https://www.npmjs.com/package/node-schedule)  
+
