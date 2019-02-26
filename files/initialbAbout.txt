@@ -5,6 +5,14 @@ I'm the one hosting InitialB (not a server) so it won't be online 24/7 sadly.
 Mon-Fri: 11am to 03am
 Sat-Sun: ??? to ???
 
-**Latest update - v2.0.1 (11/08/18):**
-- Now you can get songs submitted by a specific user using "+-musicshare @username".
-- Using this command also tells you the amount of songs submitted by them.
+**Latest update - v2.1.0 (25/02/19):**
+- Big code cleaning/refactor
+- Updated working enviroment
+- Fixed bug with musichshare when it had to process more than 100 messages
+- Fixed bug where it wouldn't properly recognize music-share channels
+- Fixed error where it would try to access/read channels without the proper permissions
+- Fixed bug where it would save youtube/spotify links with wrong ids
+- Fixed bug where it wouldn't send spotify links with musicshare command
+- Fixed bug where it wouldn't recognize some spotify links
+- Now checks permissions before sending messages in musicshare (after saving a song)
+- Give a welcome to InitialDevelop! New features/fixes will be tested with it before going public

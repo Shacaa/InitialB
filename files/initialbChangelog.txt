@@ -1,3 +1,26 @@
+**Changelog ver 2.1.0 (25/02/19):**
+- Big code cleaning/refactor (whole project)
+- Refactor functions on commands: removed them from exports.run scope to make them more reusable if needed
+- Refactor botLog/dateTime: redefined what each do, dateTime only prints on console while botLog prints on log channel and calls dateTime to print on console
+- Fixed bug with musichshare when it had to process more than 100 messages
+- EditJSONwPromise: better version of editJSON that can handle resolve/reject promise's functions (.then(), .catch()). editJSON is still in use
+- Now finish command also terminates node's process
+- Updated working enviroment: updated packages and removed/fixed package's vulnerabilities
+- Fixed bug where it wouldn't properly recognize music-share channels
+- Fixed error where it would try to access/read channels without the proper permissions
+- Fixed bug where it would save youtube/spotify links with wrong ids
+- Fixed bug where it wouldn't send spotify links with musicshare command
+- Fixed bug where it wouldn't recognize some spotify links
+- Now checks permissions before sending messages in musicshare (after saving a song)
+- SaveEntryMusicDb now recieves text channel instead of text message
+- Function to stop all scheduled jobs so is not necessary to force stop node process on finish
+- botTokens.json renamed to botInfo.json
+- Dynamic owner/version ids and command list (added them to botInfo.json)
+- Global function to send messages (handles resolve/reject promise's functions)
+- Develop branch created
+- InitialDevelop created to test new features/fixes before going to production
+- From now on new versions will be tagged (starting with this one!)
+
 **Changelog ver 2.0.1 (11/08/18):**
 - Now you can get songs submitted by a specific user using "+-musicshare @username".
 - Using this command also tells you the amount of songs submitted by them.
