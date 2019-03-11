@@ -47,10 +47,14 @@ function dateTime(message = ''){
 */
 function botLog(client, message = ''){
 	let guild = client.guilds.get(botInfo.owner.guild);
-	if(!guild){console.error(guild)}
-	let logChannel = guild.channels.get(botInfo.owner.logChannel);
-	sendMessage(logChannel, message);
-	dateTime(message);
+	if(!guild){
+		console.error(guild);
+		dateTime("couldn't connect to guild to send log message")
+	}else{
+		let logChannel = guild.channels.get(botInfo.owner.logChannel);
+		sendMessage(logChannel, message);
+		dateTime(message);
+	}
 }
 
 
