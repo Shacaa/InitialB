@@ -16,6 +16,8 @@ exports.editJSON = (path, editCallback, args = []) => editJSON(path, editCallbac
 
 exports.cancelAllScheduledJobs = () => cancelAllScheduledJobs();
 
+exports.addReaction = (channel, messages, reaction) => addReaction(channel, messages, reaction);
+
 exports.sendMessage = (channel, message) => {
 	return new Promise((resolve, reject) => sendMessage(channel, message, resolve, reject));
 };
@@ -128,6 +130,20 @@ function sendMessage(channel, message, resolve, reject){
 			console.error(err);
 			reject && reject(err);
 		});
+}
+
+
+/*
+* Adds given reaction to all the given messages.
+* recieves: channel(class), messages(array -> [string]), reaction(string)
+* returns:
+*/
+function addReaction(channel, messages, reaction){
+	for(let i = 0; i < messages.length; i++){
+		channel.fetchMessage(messages[i])
+			.then(message => message.react(reaction))
+			.catch(err => console.error('couldn\'t fetch message\n' + err));
+	}
 }
 
 
