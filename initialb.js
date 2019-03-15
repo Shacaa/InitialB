@@ -5,8 +5,8 @@
 
 
 const globals = require('./commands/globals.js');
-const botStorage = './files/botStorage.json';
 const botInfo = require('./files/botInfo.json');
+const botStorage = './files/botStorage.json';
 const botLog = './botLog.txt';
 
 const Discord = require('discord.js');
@@ -55,11 +55,30 @@ client.on('error', function(err){
 
 
 /*
- * Commands handler.
+* If you set a directory of a message handler in botInfo.owner.localMessageHandler it will run that first (needs a .run).
+* Make it return true if you want to stop the message handler afterwards.
+* Otherwise it will continue with the normal message handler.
+* recieves: message(class)
+* returns: boolean
+*
+*/
+function localMessageHandler(message){
+	if(botInfo.owner.localMessageHandler){
+		let localHandler = require(botInfo.owner.localMessageHandler);
+		return localHandler.run(client, message);
+	}
+	return false;
+}
+
+
+
+/*
+ * Message/command handler.
  */
 client.on('message', function(message){
-	let insideMemes = require('./commands/insideMemes.js');
-	if(insideMemes.run(client, message, [])){return false;}
+	if(localMessageHandler(message)){
+		return;
+	}
 	if((message.content.startsWith('+-')) && (!message.author.bot)){
 		if(message.channel.type === 'dm'){
 			globals.sendMessage(message.channel, "At the moment you can't use commands in dm's, will make it possible soon.\nMake sure to use \"+-help\" on your server to get a list of all the commands!");
