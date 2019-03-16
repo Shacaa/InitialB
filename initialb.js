@@ -132,7 +132,7 @@ schedule.scheduleJob(rule, function(){
 			globals.botLog(client, 'Spotify access token expires in '+data.body['expires_in']);
 			spotify.setAccessToken(data.body['access_token']);
 		}
-	});
+	}).catch(err => globals.botLog(client, 'Couldn\'t connect to spotify.\n' + err));
 });
 
 client.login(botInfo.discord.token).catch(err => console.error(err));
