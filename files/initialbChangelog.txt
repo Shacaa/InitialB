@@ -1,3 +1,21 @@
+This file is deprecated and won't get any more updates.
+For now it will stay just for the nostalgia.
+To check the new releases go to https://github.com/Shacaa/InitialB/releases
+
+**Changelog ver 2.2.0 (25/03/19)**
+- The InitialB discord server is now open! Chat, check upcoming features, and have fun! You can join here.
+- Happy to announce that InitialB is now officially open source!
+This means that anyone can contribute and help improving InitialB. Check the CONTRIBUTING file to see how you can contribute
+to the project.
+- Contributing guide line added for people to follow when contributing to the project.
+- MIT licence added, you can give it a read here.
+- Now when a song is saved it adds a reaction (floppy_disk) to the message instead of sending a message.
+- Option to have a local message handler (setted in botInfo.json). If so the local message handler will run
+first, then you can decide to continue with the normal one or not (check documentation in initialb.js).
+- Now every file can be updated (refreshed from node's require cache), not only commands.
+- Fixed start up error where it would try to send message to log's channel before connecting to discord API.
+- Promise rejection while connecting to spotify API handled.
+
 **Changelog ver 2.1.0 (25/02/19):**
 - Big code cleaning/refactor (whole project)
 - Refactor functions on commands: removed them from exports.run scope to make them more reusable if needed
