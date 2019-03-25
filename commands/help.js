@@ -1,6 +1,7 @@
-/*
- * Help command.
-*/
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
+ */
 
 const initialbCommands = './files/initialbCommands.txt';
 const globals = require('./globals.js');

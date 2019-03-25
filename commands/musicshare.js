@@ -1,5 +1,6 @@
-/*
- * Musicshare command.
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
  */
 
 const musicShareDb = './files/musicShareDb.json';

@@ -1,13 +1,12 @@
-/*
- *_functions() prints stuff on console.
- * 
-*/
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
+ */
 
 
 const globals = require('./commands/globals.js');
 const botInfo = require('./files/botInfo.json');
 const botStorage = './files/botStorage.json';
-const botLog = './botLog.txt';
 
 const Discord = require('discord.js');
 const client = new Discord.Client();

@@ -1,5 +1,6 @@
-/*
- * Finish command. Terminates discord bot, cancels all scheduled jobs, terminates node process.
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
  */
 
 const botStorage = './files/botStorage.json';
