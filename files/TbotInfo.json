@@ -10,7 +10,7 @@
 		"id":"owner's id",
 		"guild":"owner's guild id",
 		"logChannel":"log channel's id",
-		"localMessageHandler":"directory for local/personal message handler"
+		"localMessageHandler":"directory for local/personal message handler. If you don't have/need one remove this property from json."
 	},
 	"reddit":{
 		"userAgent":"",
