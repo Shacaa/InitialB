@@ -1,0 +1,54 @@
+/* This is only a template.
+ * Disclaimer: this template can be outdated from how the actual format of the file should be.
+ * Here goes the credentials for the different APIs, owner info, directory of some local files,
+ * list of commands, list of files.
+ */
+
+{
+	"version":"bot's version",
+	"owner":{
+		"id":"owner's id",
+		"guild":"owner's guild id",
+		"logChannel":"log channel's id",
+		"localMessageHandler":"directory for local/personal message handler. If you don't have/need one remove this property from json."
+	},
+	"reddit":{
+		"userAgent":"",
+		"clientId":"",
+		"clientSecret":"",
+		"username":"",
+		"password":""
+	},
+	"discord":{
+		"clientId":"",
+		"token":"",
+		"invite":"Message for invite command",
+		"inviteLink":"invite link"
+	},
+	"spotify":{
+		"clientId":"",
+		"clientSecret":"",
+		"redirectUri":""
+	},
+	"commands":{
+		"about":[],
+		"event":[],
+		"finish":[],
+		"help":[],
+		"invite":[],
+		"musicshare":[],
+		"reddit":[],
+		"report":[],
+		"roll":[],
+		"rps":[],
+		"spotify":[],
+		"update":[]
+	},
+	"files":{
+		"botInfo.json":[],
+		"eventCommands.txt":[],
+		"initialbAbout.txt":[],
+		"initialbChangelog.txt":[],
+		"initialbCommands.txt":[]
+	}
+}

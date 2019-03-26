@@ -1,14 +1,17 @@
-# InitialB ver 2.1.0
-InitialB is a Discord bot developed by me.  
-If you want to use it feel free to do so and let me know what you think.  
+# InitialB v2.2.0
+InitialB is a multifunctional Discord bot developed with discord.js.  
   
-[Follow this link to invite InitialB to your server.](https://discordapp.com/oauth2/authorize?client_id=370035434467753984&scope=bot&permissions=103926976)  
+[Invite InitialB to your server!](https://discordapp.com/oauth2/authorize?client_id=370035434467753984&scope=bot&permissions=103926976)  
+
+[Join the Initial Server!](https://discord.gg/tbq7Qvc)
+
+## Uptimes(GMT/UTC):  
+InitialB is hosted by me so it won't be online 24/7 sadly.
+
+- **Mon-Fri:** 11am to 03am  
+- **Sat-Sun:** ??? to ???  
   
-**Uptimes(GMT/UTC):**  
-Mon-Fri: 11am to 03am  
-Sat-Sun: ??? to ???  
-  
-**Main Features:**  
+## Main Features:
 - **Music Share**  
 If there is a \#musicshare channel on the server InitialB will save all the YouTube and Spotify music posted there.  
 Then with the musicshare command you can get a random song that was posted on the server before.  
@@ -26,5 +29,8 @@ With the reddit command you can get a random post from any subreddit's frontpage
 - **RPS**  
 Play "Rock, Paper, Scissors" with InitialB and get to know your winrate with the stats command.
 
-
+## Open source
+InitialB is an open source project, this means that anyone can contribute and help to improve it. 
+Read the [CONTRIBUTING](https://github.com/Shacaa/InitialB/blob/master/CONTRIBUTING.md) file to 
+see how can you contibute. Looking forward to it!
 

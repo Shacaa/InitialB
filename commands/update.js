@@ -1,6 +1,6 @@
-/*
- * Update command.
- * Refreshes cache of given command.
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
  */
 
 const globals = require('./globals.js');
@@ -18,26 +18,35 @@ exports.run = (client, reddit, spotify, message, args) => {
 
 
 /*
-* Updates given command file. If "all" it updates every file.
+* "commands" updates all files set in botInfo.commands.
+* "files" updates all files set in botInfo.files.
+* "project" updates commands and files.
+* "<file>" updates given file directory (has to be inside the project).
 * recieves: client(class), file(string), message(class)
-* returns: false (if wrong command name)
+* returns:
 */
 function updateFile(client, file, message){
-	let commandsArr = Object.keys(botInfo.commands);
 	try{
-		if(file === 'all'){
-			for(let i = 0; i < commandsArr.length; i++){
-				delete require.cache[require.resolve(`./${commandsArr[i]}.js`)];
+		if(file === 'commands' || file === 'project'){
+			let commands = Object.keys(botInfo.commands);
+			for(let i = 0; i < commands.length; i++){
+				delete require.cache[require.resolve(`./${commands[i]}.js`)];
 			}
-		}else if(botInfo.commands[file]){
-			delete require.cache[require.resolve(`./${file}.js`)];
+		}else if(file === 'files' || file === 'project'){
+			let files = Object.keys(botInfo.files);
+			for(let i = 0; i < files.length; i++){
+				delete require.cache[require.resolve(`../files/${files[i]}`)];
+			}
 		}else{
-			globals.sendMessage(message.channel, `${file} not found`);
-			return false;
+			delete require.cache[require.resolve(`../${file}`)];
 		}
 		globals.botLog(client, `${file} updated`);
 		globals.sendMessage(message.channel, `${file} updated`);
 	}catch(err){
+		globals.sendMessage(message.channel, 'file not found');
 		console.error(err);
 	}
 }
+
+
+

@@ -1,5 +1,6 @@
-/*
- * Global functions.
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
  */
 
 const fs = require('fs');
@@ -15,6 +16,8 @@ exports.sendDm = (client, userId, message) => sendDm(client, userId, message);
 exports.editJSON = (path, editCallback, args = []) => editJSON(path, editCallback, args);
 
 exports.cancelAllScheduledJobs = () => cancelAllScheduledJobs();
+
+exports.addReaction = (channel, messages, reaction) => addReaction(channel, messages, reaction);
 
 exports.sendMessage = (channel, message) => {
 	return new Promise((resolve, reject) => sendMessage(channel, message, resolve, reject));
@@ -47,10 +50,14 @@ function dateTime(message = ''){
 */
 function botLog(client, message = ''){
 	let guild = client.guilds.get(botInfo.owner.guild);
-	if(!guild){console.error(guild)}
-	let logChannel = guild.channels.get(botInfo.owner.logChannel);
-	sendMessage(logChannel, message);
-	dateTime(message);
+	if(!guild){
+		console.error(guild);
+		dateTime("couldn't connect to guild to send log message")
+	}else{
+		let logChannel = guild.channels.get(botInfo.owner.logChannel);
+		sendMessage(logChannel, message);
+		dateTime(message);
+	}
 }
 
 
@@ -124,6 +131,20 @@ function sendMessage(channel, message, resolve, reject){
 			console.error(err);
 			reject && reject(err);
 		});
+}
+
+
+/*
+* Adds given reaction to all the given messages.
+* recieves: channel(class), messages(array -> [string]), reaction(string)
+* returns:
+*/
+function addReaction(channel, messages, reaction){
+	for(let i = 0; i < messages.length; i++){
+		channel.fetchMessage(messages[i])
+			.then(message => message.react(reaction))
+			.catch(err => console.error('couldn\'t fetch message\n' + err));
+	}
 }
 
 

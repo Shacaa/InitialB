@@ -1,5 +1,6 @@
-/*
- * Musicshare command.
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
  */
 
 const musicShareDb = './files/musicShareDb.json';
@@ -24,9 +25,9 @@ exports.run = (client, reddit, spotify, message, args) => {
 			globals.botLog(client, linkIds);
 			let ids = [];
 			for(let i = 0; i < linkIds.length; i++){
-				ids.push([linkIds[i], message.author.id, message.guild.id]);
+				ids.push([linkIds[i], message.author.id, message.guild.id, message.id]);
 			}
-			globals.editJSON(musicShareDb, saveEntryMusicDb, [client, message.channel, ids, true]);
+			globals.editJSON(musicShareDb, saveEntryMusicDb, [client, message.channel, ids]);
 		}
 	}else{
 		let mentions = message.mentions.members.array();
@@ -103,7 +104,7 @@ function checkMusicShare(lastOnline, client){
 /*
  * Checks old messages in a channel that were posted since last time the bot was online.
  * If a message contains a yt/spotify link it will save it to the musicShareDb.
- * recieves: client(class), channel(class), lastOnline(Date), offset(messageId - string), toSave(array -> [[linkId(string), authorId(string), guildId(string)]])
+ * recieves: client(class), channel(class), lastOnline(Date), offset(messageId - string), toSave(array -> [[linkId(string), authorId(string), guildId(string), messageId(string)]])
  * returns:
  */
 function processMsgMusicShare(client, channel, lastOnline, offset = false, toSave = []){
@@ -121,19 +122,16 @@ function processMsgMusicShare(client, channel, lastOnline, offset = false, toSav
 			let linkIds = getYtSpLinkId(messages[i].content);
 			if(linkIds[0]){
 				console.log(linkIds);
-				for(let l = 0; l < linkIds.length; l++){toSave.push([linkIds[l], messages[i].author.id, messages[i].guild.id]);}
+				for(let l = 0; l < linkIds.length; l++){
+					toSave.push([linkIds[l], messages[i].author.id, messages[i].guild.id, messages[i].id]);
+				}
 			}
 		}
-		if(i === 100){processMsgMusicShare(client, channel, lastOnline, messages[i-1].id, toSave);}else{
+		if(i === 100){
+			processMsgMusicShare(client, channel, lastOnline, messages[i-1].id, toSave);
+		}else{
 			if(toSave.length > 0){
-				globals.editJSON(musicShareDb, saveEntryMusicDb, [client, channel, toSave, false]);
-				let text = ' songs';
-				if(toSave.length === 1){text = ' song';}
-				// globals.sendMessage(channel, toSave.length.toString()+text+' saved since last time I was online.\nYou can use \"+-musicshare\" to get a random song.').then(function(data, err){
-				// 	if(err){console.error(err);}else{
-				// 		data.delete(60000);
-				// 	}
-				// });
+				globals.editJSON(musicShareDb, saveEntryMusicDb, [client, channel, toSave]);
 				globals.editJSON(botStorage, function(data){
 					let obj = JSON.parse(data);
 					obj.lastOnline = new Date();
@@ -146,13 +144,14 @@ function processMsgMusicShare(client, channel, lastOnline, offset = false, toSav
 
 
 /*
- * Saves link in musicShareDb. If notify it will notify the action in the channel.
- * recieves: client(class), channel(class), toSave(array -> [[linkId(string), authorId(string), guildId(string)]]), notify(boolean), data(string)
+ * Saves all given link ids in the musicShareDb, once saved it leaves a reation on the message.
+ * recieves: client(class), channel(class), toSave(array -> [[linkId(string), authorId(string), guildId(string), messageId(string)]]), data(string)
  * returns: new stringify json(string)
 */
-function saveEntryMusicDb(client, channel, toSave, notify, data){
+function saveEntryMusicDb(client, channel, toSave, data){
 	let obj = JSON.parse(data);
-	let saved = 0;
+	let permissions = channel.permissionsFor(client.user);
+	let canReact = permissions.has('ADD_REACTIONS');
 	console.log(toSave);
 	for(let i = 0; i < toSave.length; i++){
 		let author = toSave[i][1];
@@ -167,13 +166,10 @@ function saveEntryMusicDb(client, channel, toSave, notify, data){
 		}
 		obj['servers'][serverId][author].push(toSave[i][0]);
 		obj['servers'][serverId]['ids'][toSave[i][0]] = [];
-		if(!obj['ids'][toSave[i][0]]){obj['ids'][toSave[i][0]] = [];}
-		saved++;
-	}
-	let permissions = channel.permissionsFor(client.user);
-	if(notify && saved > 0 && permissions.has('SEND_MESSAGES')){
-		globals.sendMessage(channel, 'Your music has been saved!\nYou can use "+-musicshare" to get a random song.\n Go subscribe to Pewdiepie! :punch:' )
-			.then(data => data.delete(30000));
+		if(!obj['ids'][toSave[i][0]]){
+			obj['ids'][toSave[i][0]] = [];
+		}
+		canReact && globals.addReaction(channel, [toSave[i][3]], '💾');
 	}
 	return JSON.stringify(obj);
 }

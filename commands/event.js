@@ -1,6 +1,7 @@
-/* 
- * Event Scheduler.
-*/
+/* Copyright (c) 2019 Shacaa
+ * MIT License: https://github.com/Shacaa/InitialB/blob/master/LICENSE.txt
+ *
+ */
 
 const eventCommands = './files/eventCommands.txt';
 const scheduleDb = './files/scheduleDb.json';

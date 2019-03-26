@@ -1,14 +1,14 @@
 {
   "name": "initialb",
-  "version": "2.0.1",
+  "version": "2.2.0",
   "description": "Discord bot",
   "main": "initialb.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Shacaa",
+  "license": "MIT",
   "dependencies": {
     "discord.js": "11.4.2",
     "lien": "3.3.0",
