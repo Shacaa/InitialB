@@ -156,7 +156,9 @@ function saveEntryMusicDb(client, channel, toSave, data){
 	for(let i = 0; i < toSave.length; i++){
 		let author = toSave[i][1];
 		let serverId = toSave[i][2];
-		if(obj['servers'][serverId]['ids'][toSave[i][0]]){
+		if(!obj['servers'][serverId]){
+			obj['servers'][serverId] = {'ids':{}};
+		}else if(obj['servers'][serverId]['ids'][toSave[i][0]]){
 			console.log('skipped');
 			continue;
 		}
@@ -194,7 +196,7 @@ function sendRandomEntryMusicDb(client, author, channel, serverId, from){
 			let user;
 			if(from === 'server'){
 				let users = Object.keys(musicDb.servers[serverId]);
-				users.splice(users.indexOf('ids'), 1);
+				musicDb.servers[serverId] && users.splice(users.indexOf('ids'), 1);
 				if(musicDb.servers[serverId][author]){
 					users.splice(users.indexOf(author), 1);
 				}

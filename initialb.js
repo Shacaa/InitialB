@@ -111,9 +111,10 @@ client.on('message', function(message){
  * When the bot joins a server it adds it to musicShareDb and notifies bot's owner about it.
  */
 client.on('guildCreate', function(guild){
-	let msg = 'Joined '+guild.name+' guild.\nGuild id: '+guild.id;
-	globals.botLog(client, msg);
-	globals.sendDm(client, botInfo.owner.id, msg+'\nOwner: '+guild.owner.user.username+' - '+guild.ownerID);
+	let msg = `Joined ${guild.name} guild.\nGuild id: ${guild.id}\n`;
+	let owner = guild.owner ? `Owner: ${guild.owner.user.username} - ${guild.ownerID}` : 'Owner: none';
+	globals.botLog(client, msg + owner);
+	globals.sendDm(client, botInfo.owner.id, msg + owner);
 	globals.editJSON('./files/musicShareDb.json', function(data){
 		let obj = JSON.parse(data);
 		if(!obj.servers[guild.id]){
