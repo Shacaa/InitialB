@@ -1,5 +1,5 @@
-# InitialB v2.2.1
-InitialB is a multifunctional Discord bot developed with discord.js.  
+# InitialB
+InitialB is a multipurpose Discord bot developed with discord.js.  
   
 [Invite InitialB to your server!](https://discordapp.com/oauth2/authorize?client_id=370035434467753984&scope=bot&permissions=103926976)  
 

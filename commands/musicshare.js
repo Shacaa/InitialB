@@ -194,6 +194,15 @@ function sendRandomEntryMusicDb(client, author, channel, serverId, from){
 			let msg = '';
 			let usersEntriesIx = [];
 			let user;
+			if(from !== 'all' && !musicDb.servers[serverId]){
+				globals.editJSON(musicShareDb, data => {
+					musicDb.servers[serverId] = {'ids':{}};
+					console.log('Guild added to DB');
+					return JSON.stringify(musicDb);
+				});
+				globals.sendMessage(channel, 'No entries found in this server :(\nTry \'+-musicshare all\'.');
+				return false;
+			}
 			if(from === 'server'){
 				let users = Object.keys(musicDb.servers[serverId]);
 				musicDb.servers[serverId] && users.splice(users.indexOf('ids'), 1);
