@@ -8,8 +8,5 @@ Sat-Sun: ??? to ???
 **Join the Initial Server**
 https://discord.gg/tbq7Qvc
 
-**Latest update - v2.2.0 (25/03/19):**
-- Now when a song is saved it adds a reaction instead of sending a message.
-- Come and join InitialB discord server! Chat, check upcoming features, and have fun!
-- Happy to announce that now InitialB is officially open source! This means that anyone can contribute and help improving InitialB. Join the discord server for more info.
-- Bug fixes and improvements.
+**Latest update - v2.2.2 (15/04/2019):**
+- Fixed bug when using musicshare command and the server was never added to the bot.
