@@ -119,6 +119,7 @@ client.on('guildCreate', function(guild){
 		let obj = JSON.parse(data);
 		if(!obj.servers[guild.id]){
 			obj.servers[guild.id] = {'ids':{}};
+			console.log('Guild added to DB');
 		}
 		return JSON.stringify(obj);
 	});
